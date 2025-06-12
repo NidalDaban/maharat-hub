@@ -21,6 +21,7 @@ Route::controller(ThemeController::class)->name('theme.')->group(function () {
     Route::get('/trainers', 'trainers')->name('trainers');
     Route::get('/about', 'about')->name('about');
     Route::get('/contact', 'contact')->name('contact');
+    // Route::get('/register', 'register')->name('register');
 });
 
 

@@ -30,8 +30,8 @@
             <div class="search-container" data-aos="fade-up" data-aos-delay="300">
                 <!-- Tabs -->
                 <div class="tabs">
-                    <button class="tab-button active">ابحث عن موهبة</button>
-                    <button class="tab-button">تصفح الوظائف</button>
+                    <button class="tab-button active">ابحث عن المهارة</button>
+                    <button class="tab-button">تصفح المهارات</button>
                 </div>
 
                 <!-- Search Bar & Filters -->
@@ -284,3 +284,5 @@
     </section><!-- /FAQs Section -->
 
 @endsection
+
+

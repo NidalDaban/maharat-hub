@@ -25,4 +25,15 @@ class ThemeController extends Controller
     {
         return view("theme.contact");
     }
+
+    public function login()
+    {
+        dd('this is the login');
+        dd('this is the login');
+        return view('theme.partials.login');
+    }
+    public function register()
+    {
+        return view('theme.partials.register');
+    }
 }

@@ -118,13 +118,79 @@
         }
 
         #about-content {
-            flex-direction: column; 
-            justify-content: center; 
+            flex-direction: column;
+            justify-content: center;
             display: flex;
         }
+    </style>
 
-        .read-more {
-            
+    <style>
+        /* Add this to your existing styles */
+        .form-control,
+        .form-select,
+        .form-check-input {
+            text-align: right;
+            direction: rtl;
+        }
+
+        .invalid-feedback {
+            text-align: right;
+        }
+
+        .form-check {
+            padding-right: 1.5em;
+            padding-left: 0;
+        }
+
+        .form-check-input {
+            float: right;
+            margin-right: -1.5em;
+            margin-left: 0;
+        }
+
+        /* Adjust floating labels if you use them */
+        .form-floating>label {
+            right: 0;
+            left: auto;
+            transform-origin: right top;
+        }
+
+        .form-floating>.form-control:focus~label,
+        .form-floating>.form-control:not(:placeholder-shown)~label,
+        .form-floating>.form-select~label {
+            transform: scale(0.85) translateY(-0.5rem) translateX(-1.15rem);
+        }
+    </style>
+
+    <style>
+        /* User dropdown styles */
+        .dropdown-menu {
+            text-align: right;
+            direction: rtl;
+        }
+
+        .avatar-placeholder {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Adjust dropdown positioning for RTL */
+        .dropdown-menu-end {
+            right: auto !important;
+            left: 0 !important;
+        }
+
+        /* Make sure dropdown items have proper RTL alignment */
+        .dropdown-item {
+            text-align: right;
+            padding-right: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        /* Adjust caret position for RTL */
+        .dropdown-toggle::after {
+            margin-right: 0.255em;
+            margin-left: 0;
         }
     </style>
 

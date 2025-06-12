@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
@@ -100,8 +100,7 @@
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
-            <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt=""
-                    class="img-fluid"></a>
+
             <nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
                     <li><a href="index.html">الرئيسية</a></li>
@@ -112,70 +111,8 @@
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav>
         </div>
-    </header><!-- End Header -->
+    </header>
 
-    <main id="main">
-        <section class="breadcrumbs">
-            <div class="container">
-                <h2>تسجيل الدخول</h2>
-            </div>
-        </section>
-
-        <section class="inner-page">
-            <div class="container">
-                <div class="login-container">
-                    <div class="login-card">
-                        <div class="login-header">
-                            <h3>مرحبًا بعودتك!</h3>
-                            <p>سجل الدخول للوصول إلى حسابك</p>
-                        </div>
-
-                        <div class="login-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">البريد الإلكتروني</label>
-                                    <input type="email" class="form-control" id="email" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">كلمة المرور</label>
-                                    <input type="password" class="form-control" id="password" required>
-                                    <div class="text-end mt-2">
-                                        <a href="forgot-password.html" class="text-muted small">نسيت كلمة المرور؟</a>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember">
-                                    <label class="form-check-label" for="remember">تذكرني</label>
-                                </div>
-
-                                <button type="submit" class="btn btn-login btn-primary w-100 text-white">تسجيل
-                                    الدخول</button>
-
-                                <div class="divider">
-                                    <span>أو سجل الدخول باستخدام</span>
-                                </div>
-
-                                <div class="social-login">
-                                    <a href="#" class="btn btn-outline-primary">
-                                        <i class="fab fa-google me-2"></i> جوجل
-                                    </a>
-                                    <a href="#" class="btn btn-outline-primary mt-2">
-                                        <i class="fab fa-facebook-f me-2"></i> فيسبوك
-                                    </a>
-                                </div>
-
-                                <div class="text-center mt-3">
-                                    <p>ليس لديك حساب؟ <a href="register.html">أنشئ حساب جديد</a></p>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main><!-- End #main -->
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
@@ -190,4 +127,76 @@
     <script src="assets/js/main.js"></script>
 </body>
 
-</html>
+</html> --}}
+
+
+@extends('theme.master')
+
+@section('content')
+    <section class="section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="card shadow-sm border-0 rounded-3">
+                        <div class="card-body p-4 p-sm-5">
+                            <h2 class="card-title text-center mb-4">تسجيل الدخول</h2>
+
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+
+                            <form method="POST" action="{{ route('login') }}">
+                                @csrf
+
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">البريد الإلكتروني</label>
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        id="email" name="email" value="{{ old('email') }}" required
+                                        autocomplete="email" autofocus>
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">كلمة المرور</label>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                        id="password" name="password" required autocomplete="current-password">
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="remember" name="remember"
+                                        {{ old('remember') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="remember">تذكرني</label>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+                                </div>
+
+                                <div class="text-center mt-3">
+                                    @if (Route::has('password.request'))
+                                        <a href="{{ route('password.request') }}">نسيت كلمة المرور؟</a>
+                                    @endif
+                                </div>
+                            </form>
+
+                            <div class="text-center mt-4">
+                                <p class="mb-0">ليس لديك حساب؟ <a href="{{ route('register') }}">إنشاء حساب جديد</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+@endsection
