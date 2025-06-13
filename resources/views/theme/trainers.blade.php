@@ -8,6 +8,32 @@
         'current' => 'المدبين',
     ])
 
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8 col-md-10">
+                <div class="trainer-search-container">
+                    <div class="input-group trainer-search-group">
+                        <input type="text" class="form-control trainer-search-input" placeholder="ابحث عن مدربين..."
+                            aria-label="بحث عن مدربين">
+                        <button id="trainer-search-btn" class="btn trainer-search-btn" type="button">
+                            <i class="bi bi-search"></i>
+                            <span class="d-none d-sm-inline">بحث</span>
+                        </button>
+                    </div>
+                    <div class="search-tags mt-3">
+                        <span class="me-2 d-none d-sm-inline">تصفح حسب:</span>
+                        <div class="tags-container">
+                            <a href="#" class="tag">البرمجة</a>
+                            <a href="#" class="tag">التصميم</a>
+                            <a href="#" class="tag">اللغات</a>
+                            <a href="#" class="tag">التسويق</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Trainers Index Section -->
     <section id="trainers-index" class="section trainers-index">
 

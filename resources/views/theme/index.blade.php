@@ -2,20 +2,6 @@
 @section('index-active', 'active')
 
 @section('content')
-    {{-- <!-- Hero Section -->
-    <section id="hero" class="hero section dark-background">
-
-        <img src="assets/img/hero-bg.jpg" alt="" data-aos="fade-in">
-
-        <div class="container">
-            <h2 data-aos="fade-up" data-aos-delay="100">نتعلم اليوم،<br>لنقود الغد</h2>
-            <p data-aos="fade-up" data-aos-delay="200">انضم إلى مجتمع نابض بالحياة حيث يلتقي التعلم بالفرص. منصة مهارات هَب
-                تتيح للأفراد مشاركة خبراتهم وتبادل المهارات لبناء مستقبل أفضل وتحقيق النمو معًا.</p>
-        </div>
-
-        
-
-    </section><!-- /Hero Section --> --}}
 
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
@@ -26,7 +12,36 @@
             <p data-aos="fade-up" data-aos-delay="200">انضم إلى مجتمع نابض بالحياة حيث يلتقي التعلم بالفرص. منصة مهارات هَب
                 تتيح للأفراد مشاركة خبراتهم وتبادل المهارات لبناء مستقبل أفضل وتحقيق النمو معًا.</p>
 
-            <!-- Search/Filter Container (Added) -->
+            <h2 data-aos="fade-up" data-aos-delay="100">ماذا تريد أن تتعلم اليوم؟</h2>
+
+            <!-- Updated Search Section -->
+            <div class="search-container" data-aos="fade-up" data-aos-delay="300">
+                <!-- Tabs -->
+                <div class="tabs mb-4">
+                    <button class="tab-button active">ابحث عن مهارة</button>
+                    <button class="tab-button">تصفح المهارات</button>
+                </div>
+
+                <!-- Search Bar & Filters -->
+                <div class="search-wrapper">
+                    <div class="search-bar">
+                        <div class="search-input">
+                            <input type="text" placeholder="ابحث عن المهارة">
+                            <button class="search-button">
+                                <i class="bi bi-search"></i> بحث
+                            </button>
+                        </div>
+                    </div>
+                    <div class="quick-links mt-3">
+                        <span class="me-2">ابحث سريعًا:</span>
+                        <a href="#" class="quick-link">تعليم لغات</a>
+                        <a href="#" class="quick-link">برمجة</a>
+                        <a href="#" class="quick-link">تصميم</a>
+                    </div>
+                </div>
+            </div>
+
+            {{-- <!-- Search/Filter Container (Added) -->
             <div class="search-container" data-aos="fade-up" data-aos-delay="300">
                 <!-- Tabs -->
                 <div class="tabs">
@@ -37,17 +52,21 @@
                 <!-- Search Bar & Filters -->
                 <div class="search-bar">
                     <div class="search-input">
-                        <input type="text" placeholder="ابحث عن مهارة (مثال: مدرس لغة إنجليزية)">
+                        <input type="text" placeholder="ابحث عن المهارة">
                         <button class="search-button">بحث<i class="bi bi-search"></i></button>
                     </div>
 
                 </div>
-            </div>
+            </div> --}}
+
         </div>
     </section>
 
+
+
+    {{-- ===================================   --}}
     <!-- Learning, teaching, and connecting Section -->
-    <section id="learning" class="learning section">
+    {{-- <section id="learning" class="learning section">
         <div class="container">
             <div class="row gy-4">
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
@@ -100,70 +119,183 @@
 
         </div>
 
-    </section>
+    </section> --}}
     <!-- /About Section -->
+    {{-- ====================================== --}}
 
-    <!-- Why Us Section -->
-    <section id="why-us" class="section why-us">
 
+
+
+    <!-- Why Skills Hub Section -->
+    <section id="why-skills-hub" class="why-skills-hub section">
         <div class="container">
+            <div class="section-title text-center mb-5">
+                <h2>لماذا مهارات هَب؟</h2>
+                <p>نهدف إلى تسهيل عملية تعلم المهارات الجديدة، مشاركة الدورات، وبناء مجتمع تعليمي مستدام</p>
+            </div>
 
             <div class="row gy-4">
 
-                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="why-box">
-                        <h3>Why Choose Our Products?</h3>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                            incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-                            Asperiores dolores sed et. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus
-                            optio ad corporis.
-                        </p>
-                        <div class="text-center">
-                            <a href="#" class="more-btn"><span>Learn More</span> <i
-                                    class="bi bi-chevron-right"></i></a>
+                <!-- Skill Exchange -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-box h-100">
+                        <div class="icon-box bg-primary text-white mb-3">
+                            <i class="bi bi-arrow-left-right"></i>
                         </div>
-                    </div>
-                </div><!-- End Why Box -->
-
-                <div class="col-lg-8 d-flex align-items-stretch">
-                    <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
-
-                        <div class="col-xl-4">
-                            <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                                <i class="bi bi-clipboard-data"></i>
-                                <h4>Corporis voluptates officia eiusmod</h4>
-                                <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut
-                                    aliquip</p>
-                            </div>
-                        </div><!-- End Icon Box -->
-
-                        <div class="col-xl-4" data-aos="fade-up" data-aos-delay="300">
-                            <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                                <i class="bi bi-gem"></i>
-                                <h4>Ullamco laboris ladore pan</h4>
-                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                    deserunt</p>
-                            </div>
-                        </div><!-- End Icon Box -->
-
-                        <div class="col-xl-4" data-aos="fade-up" data-aos-delay="400">
-                            <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                                <i class="bi bi-inboxes"></i>
-                                <h4>Labore consequatur incidid dolore</h4>
-                                <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere
-                                </p>
-                            </div>
-                        </div><!-- End Icon Box -->
-
+                        <h3>تبادل المهارات</h3>
+                        <p>تبادل خبراتك مع الآخرين. علّم ما تعرفه، وتعلم ما لا تعرفه.</p>
                     </div>
                 </div>
 
+                <!-- Free or Low Cost -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-box h-100">
+                        <div class="icon-box bg-primary text-white mb-3">
+                            <i class="bi bi-cash-coin"></i>
+                        </div>
+                        <h3>مجاني أو بتكلفة منخفضة</h3>
+                        <p>نوفر لك الوصول إلى مهارات عالية الجودة دون أي عبء مالي</p>
+                    </div>
+                </div>
+
+                <!-- Community Concept -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-box h-100">
+                        <div class="icon-box bg-primary text-white mb-3">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <h3>مدفوع المجتمع</h3>
+                        <p>كن جزءًا من مجتمع نابض بالحماس، حيث يتشارك الجميع شغف التعلم والمعرفة.</p>
+                    </div>
+                </div>
+
+                <!-- Skill Verification -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-box h-100">
+                        <div class="icon-box bg-primary text-white mb-3">
+                            <i class="bi bi-patch-check-fill"></i>
+                        </div>
+                        <h3>التحقق من المهارات</h3>
+                        <p>اكسب شارات وتحققات للمهارات التي أتقنتها لإظهار قدراتك.</p>
+                    </div>
+                </div>
+
+                <!-- Flexible Scheduling -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-box h-100">
+                        <div class="icon-box bg-primary text-white mb-3">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <h3>جدولة مرنة</h3>
+                        <p>حدد جدولك الخاص والتقي افتراضيًا أو شخصيًا، حسب ما يناسبك.</p>
+                    </div>
+                </div>
+
+                <!-- Continuous Learning -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-box h-100">
+                        <div class="icon-box bg-primary text-white mb-3">
+                            <i class="bi bi-mortarboard-fill"></i>
+                        </div>
+                        <h3>وصول عالمي</h3>
+                        <p>تواصل مع أشخاص من جميع أنحاء العالم وتبادل المهارات عبر الحدود الثقافية.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /Why Skills Hub Section -->
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works section">
+        <div class="container">
+            <div class="section-title text-center mb-5">
+                <h2>كيف تعمل مهارات هَب؟</h2>
+                <p>انضم إلى منصتنا بثلاث خطوات بسيطة وابدأ بتبادل المهارات اليوم.</p>
             </div>
 
-        </div>
+            <div class="row gy-4 justify-content-center">
+                <!-- Step 1 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="step-box text-center h-100">
+                        <div class="step-number bg-primary text-white mb-3">١</div>
+                        <h3>أنشئ ملفك الشخصي</h3>
+                        <p>سجّل وحدد المهارات التي يمكنك تعليمها للآخرين.</p>
+                    </div>
+                </div>
 
-    </section><!-- /Why Us Section -->
+                <!-- Step 2 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="step-box text-center h-100">
+                        <div class="step-number bg-primary text-white mb-3">٢</div>
+                        <h3>تواصل مع الآخرين</h3>
+                        <p>تصفح أو اعثر على الأشخاص الذين يريدون تعلم ما تعلمه ويمكنهم تعليمك ما تريد تعلمه.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="step-box text-center h-100">
+                        <div class="step-number bg-primary text-white mb-3">٣</div>
+                        <h3>ابدأ بالتبادل</h3>
+                        <p>تواصل، وحدد المواعيد، وابدأ بتبادل المعرفة والمهارات مع شريك التعلم الجديد الخاص بك.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /How It Works Section -->
+
+    <!-- Updated Growing Community Section -->
+    <section id="community" class="community section bg-light">
+        <div class="container">
+            <div class="row align-items-center" id="row-community-id">
+                <!-- Image on the left -->
+                <div class="col-lg-6 order-lg-1" data-aos="fade-right">
+                    <img src="https://www.en.agraria.unina.it/images/2023/05/31/courses4.png" id="img-fluid" class="img-fluid rounded"
+                        alt="مجتمع مهارات هب">
+                </div>
+
+                <!-- Content on the right -->
+                <div class="col-lg-6 order-lg-2" data-aos="fade-left">
+                    <div class="pe-lg-5">
+                        <h2 class="mb-4">انضم إلى مجتمعنا المتنامي</h2>
+                        <p class="lead mb-4">مهارات هب هي أكثر من مجرد منصة - إنها مجتمع من المتعلمين والمعلمين المتحمسين
+                            يجتمعون معًا لمشاركة المعرفة.</p>
+
+                        <div class="community-features">
+                            <div class="feature-item d-flex mb-4">
+                                <div class="icon-box bg-primary text-white me-3 flex-shrink-0">
+                                    <i class="bi bi-check2-circle"></i>
+                                </div>
+                                <div>
+                                    <p class="mb-0 feature-text">تواصل مع أشخاص يفكرون بنفس طريقتك ويشاركونك اهتماماتك</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item d-flex mb-4">
+                                <div class="icon-box bg-primary text-white me-3 flex-shrink-0">
+                                    <i class="bi bi-check2-circle"></i>
+                                </div>
+                                <div>
+                                    <p class="mb-0 feature-text">شارك في فعاليات المجتمع وجلسات التعلم الجماعية</p>
+                                </div>
+                            </div>
+
+                            <div class="feature-item d-flex">
+                                <div class="icon-box bg-primary text-white me-3 flex-shrink-0">
+                                    <i class="bi bi-check2-circle"></i>
+                                </div>
+                                <div>
+                                    <p class="mb-0 feature-text">ابنِ علاقات ذات مغزى أثناء تنمية مهاراتك</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- FAQs Section -->
     <section id="faq" class="faq section">
@@ -171,7 +303,7 @@
 
             <div class="section-title text-right">
                 <h2>الأسئلة الشائعة</h2>
-                <p>إجابات على الأسئلة الأكثر شيوعًا حول منصة مهارات هَب</p>
+                <p>احصل على إجابات للأسئلة الشائعة حول مهارات هب</p>
             </div>
 
             <div class="row justify-content-center">
@@ -184,13 +316,12 @@
                             <h3 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#faq1">
-                                    ما هي منصة مهارات هَب؟
+                                    كيف يعمل تبادل المهارات؟
                                 </button>
                             </h3>
                             <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    منصة مهارات هَب هي مجتمع تعليمي تفاعلي يهدف إلى تمكين الأفراد من تبادل المهارات والخبرات
-                                    بين المدربين والمتعلمين. نقدم مساحة آمنة وفعالة لتبادل المعرفة ونشر المهارات المختلفة.
+                                    تطابق مهارات هب المستخدمين بناءً على المهارات التكميلية. سيتم ربطك مع أشخاص يريدون تعلم ما يمكنك تعليمه، ويمكنهم تعليمك ما تريد تعلمه. يمكنك بعد ذلك ترتيب الجلسات إما افتراضيًا أو شخصيًا، حسب تفضيلاتك.
                                 </div>
                             </div>
                         </div>
@@ -200,13 +331,12 @@
                             <h3 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#faq2">
-                                    كيف يمكنني الانضمام إلى المنصة؟
+                                    هل مهارات هب مجانية تماماً؟
                                 </button>
                             </h3>
                             <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    يمكنك الانضمام إما كمدرب أو متعلم عن طريق إنشاء حساب جديد على المنصة. بعد التسجيل، يمكنك
-                                    تحديد المهارات التي ترغب في تعلمها أو تلك التي يمكنك تدريسها للآخرين.
+                                    نعم، جميع تبادلات المهارات على مهارات هب مجانية تمامًا - لأننا نؤمن بأن المعرفة يجب أن تُشارك بشكل مفتوح وبدون حواجز. ومع ذلك، لضمان استدامة المنصة واستمرار تطورها، تُقدم بعض الميزات المتقدمة وغير المحدودة حصريًا من خلال اشتراكنا المميز.
                                 </div>
                             </div>
                         </div>
@@ -216,13 +346,12 @@
                             <h3 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#faq3">
-                                    هل هناك رسوم للاشتراك في المنصة؟
+                                    كيف أكسب وأستبدل النقاط؟
                                 </button>
                             </h3>
                             <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    المنصة توفر خيارات مجانية ومدفوعة. يمكنك البدء مجانًا والوصول إلى العديد من المهارات
-                                    الأساسية، بينما تتيح العضوية المدفوعة الوصول إلى دورات متخصصة ومدربين خبراء.
+                                    النقاط هي نظام مكافآت صُمّم لتعزيز تجربة التعلّم على منصتنا. يمكنك كسب النقاط من خلال إكمال تبادلات المهارات، وتسجيل الدخول اليومي، ودعوة الأصدقاء. ويمكنك استبدال هذه النقاط مقابل مزايا حصرية مثل الوصول إلى النسخة المدفوعة، وخصومات من شركائنا، وجوائز، أو حضور ندوات خاصة.
                                 </div>
                             </div>
                         </div>
@@ -232,13 +361,12 @@
                             <h3 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#faq4">
-                                    كيف يتم ضمان جودة المدربين؟
+                                    ماذا لو أردت تعليم شخص ما، ولكنه لا يستطيع تقديم أي شيء في المقابل؟
                                 </button>
                             </h3>
                             <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    نتبع نظام تقييم متعدد المستويات يشمل التحقق من المؤهلات، تقييمات المتعلمين، وعينات من
-                                    المحتوى التعليمي. كما نتيح نظام تقييم للمتعلمين لمشاركة تجاربهم مع كل مدرب.
+                                    إذا كنت منفتحًا على التعليم دون توقع مقابل، فستحصل على 1.5 ضعف النقاط مقابل مشاركة معرفتك ومساعدة الآخرين. يمكنك تفعيل هذا الخيار من ملفك الشخصي، وسيعرض النظام الأشخاص الأنسب بناءً على تفضيلاتك. هذا لا يحد من قدرتك على المشاركة في التبادلات المتبادلة، بل يمنحك مرونة أكبر للمساعدة وكسب مكافآت إضافية.
                                 </div>
                             </div>
                         </div>
@@ -248,13 +376,12 @@
                             <h3 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#faq5">
-                                    هل يمكنني كسب المال من خلال مشاركة مهاراتي؟
+                                    كيف تتحقق مهارات هب من مهارات المستخدم؟
                                 </button>
                             </h3>
                             <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    نعم، يمكنك تحديد أسعار للدورات أو الجلسات التي تقدمها. توفر المنصة نظام آمن للدفع
-                                    ومراجعة الأداء لضمان تجربة عادلة للجميع.
+                                    نستخدم مجموعة من مراجعات الأقران وتقييمات المهارات وشارات التحقق. يمكن للمستخدمين كسب شارات من خلال إظهار مهاراتهم وتلقي ملاحظات إيجابية من شركاء التعلم. يخلق هذا مجتمعًا موثوقًا به من مشاركي المهارات المعتمدين.
                                 </div>
                             </div>
                         </div>
@@ -264,13 +391,27 @@
                             <h3 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#faq6">
-                                    ما هي وسائل الدعم المتاحة إذا واجهت مشكلة؟
+                                    متى سيتم إطلاق مهارات هب؟
                                 </button>
                             </h3>
                             <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
-                                    نوفر عدة قنوات للدعم بما في ذلك مركز المساعدة، الدردشة المباشرة، البريد الإلكتروني،
-                                    بالإضافة إلى فريق دعم متخصص جاهز لمساعدتك في أي وقت.
+                                    المنصة حالياً قيد التطوير بعد أن فازت الفكرة في هاكاثون رواد الأعمال 2024 من وزارة الاقتصاد الرقمي والريادة الأردنية. انضم إلى قائمة الانتظار لتكون من أوائل من يعرف عندما يتم الإطلاق وللحصول على وصول مبكر حصري.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Item 7 -->
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq6">
+                                    ما نوع المهارات التي يمكن تبادلها؟
+                                </button>
+                            </h3>
+                            <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    يمكن تبادل أي مهارة تقريبًا على منصتنا! سواء كانت مهارات إبداعية مثل التصوير والموسيقى، أو مهارات تقنية مثل البرمجة والتسويق الرقمي، أو مهارات يومية مثل تعلم اللغات والطبخ واللياقة البدنية والمواد الأكاديمية - إذا كان بإمكانك تعليمها، يمكنك تبادلها.
                                 </div>
                             </div>
                         </div>
@@ -281,8 +422,7 @@
             </div>
 
         </div>
-    </section><!-- /FAQs Section -->
+    </section>
+    <!-- /FAQs Section -->
 
 @endsection
-
-

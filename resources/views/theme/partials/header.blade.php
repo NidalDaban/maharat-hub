@@ -41,7 +41,8 @@
 
         <a href="{{ route('theme.index') }}" class="logo d-flex align-items-center ms-auto order-1">
             <!-- Uncomment the line below if you also wish to use an image logo -->
-            <img src="assets/img/logo.png" alt="">
+            {{-- <img src="assets/img/logo.png" alt=""> --}}
+            <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/skill-logo-design-template-6677debd608907e81c75e20c66e95baf_screen.jpg?ts=1685817469" alt="">
             <h1 class="sitename">مهارات هب</h1>
         </a>
 
