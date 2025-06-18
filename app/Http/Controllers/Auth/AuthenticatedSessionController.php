@@ -29,7 +29,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return to_route('theme.partials.index');
+        // return to_route('theme.index');
+        return redirect()->intended(route('theme.index'));
     }
 
     /**

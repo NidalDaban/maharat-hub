@@ -9,8 +9,12 @@
     {{-- <link href="{{ asset('assets') }}/img/favicon.png" rel="icon">
     <link href="{{ asset('assets') }}/img/apple-touch-icon.png" rel="apple-touch-icon"> --}}
 
-    <link href="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/skill-logo-design-template-6677debd608907e81c75e20c66e95baf_screen.jpg?ts=1685817469" rel="icon">
-    <link href="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/skill-logo-design-template-6677debd608907e81c75e20c66e95baf_screen.jpg?ts=1685817469" rel="apple-touch-icon">
+    <link
+        href="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/skill-logo-design-template-6677debd608907e81c75e20c66e95baf_screen.jpg?ts=1685817469"
+        rel="icon">
+    <link
+        href="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/skill-logo-design-template-6677debd608907e81c75e20c66e95baf_screen.jpg?ts=1685817469"
+        rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -33,8 +37,67 @@
     <link href="{{ asset('assets') }}/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="{{ asset('assets') }}/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
+    {{-- ============================== --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" rel="stylesheet">
+    {{-- ============================== --}}
+
     <!-- Main CSS File -->
     <link href="{{ asset('assets') }}/css/main.css" rel="stylesheet">
+
+    <style>
+        @media (max-width: 768px) {
+            .dropdown-menu.show {
+                position: relative !important;
+                transform: none !important;
+                inset: auto !important;
+            }
+        }
+    </style>
+
+    <style>
+        /* Dropdown styles */
+        .dropdown-menu {
+            text-align: right;
+            direction: rtl;
+        }
+
+        .dropdown-item {
+            text-align: right;
+            padding: 0.25rem 1.5rem;
+        }
+
+        .avatar-placeholder {
+            font-weight: bold;
+        }
+    </style>
+
+    <style>
+        /* Form validation styles */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .invalid-feedback.d-block {
+            display: block !important;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+            color: #dc3545;
+            text-align: right;
+            direction: rtl;
+        }
+
+        /* Google button styles */
+        .btn-outline-danger {
+            border-color: #db4437;
+            color: #db4437;
+        }
+
+        .btn-outline-danger:hover {
+            background-color: #db4437;
+            color: white;
+        }
+    </style>
 
     <style>
         /* Search Container */
@@ -107,8 +170,8 @@
             position: absolute;
             left: 10px;
             top: 50%;
-            transform: translateY(-50%);
-            background: #3498db;
+            transform: translate(7%, -50%);
+            background: rgb(13, 110, 253);
             color: white;
             border: none;
             border-radius: 8px;
@@ -174,8 +237,6 @@
             margin-right: 0;
             margin-left: 8px;
         }
-
-        .search-container
     </style>
 
 
@@ -429,6 +490,305 @@
         }
     </style>
 
+    {{-- Skills styles --}}
+
+    <style>
+        /* Base RTL Styles */
+        .rtl {
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-left: 1px solid #e9ecef;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .filter-subtitle {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 15px 0 10px;
+            color: #3498db;
+        }
+
+        .filter-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .filter-list li {
+            margin-bottom: 8px;
+        }
+
+        .filter-list li a {
+            color: #495057;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .filter-list li a:hover {
+            color: #3498db;
+        }
+
+        /* Talent Card Styles */
+        .talent-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.09);
+        }
+
+        .talent-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .talent-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-left: 15px;
+        }
+
+        .talent-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .talent-info p {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .talent-location {
+            font-size: 0.8rem;
+            color: #95a5a6;
+        }
+
+        .talent-description {
+            margin: 15px 0;
+            color: #495057;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .talent-jobs {
+            font-size: 0.85rem;
+            color: #3498db;
+            margin-top: 10px;
+        }
+
+        .talent-stats {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .talent-stats i {
+            color: #f39c12;
+            margin-left: 5px;
+        }
+
+        .talent-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .skill-tag {
+            background-color: #e8f4fc;
+            color: #3498db;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* Talent Actions */
+        .talent-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-outline-primary {
+            border: 1px solid #3498db;
+            color: #3498db;
+            background-color: transparent;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #3498db;
+            color: white;
+        }
+
+        /* Form Check Styles */
+        .form-check {
+            padding-right: 1.5em;
+            padding-left: 0;
+        }
+
+        .form-check-input {
+            margin-right: -1.5em;
+            margin-left: 0;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding: 30px;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control {
+            border: none;
+            padding: 12px 20px;
+        }
+
+        .btn-search {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0 20px;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-select {
+            border-radius: 20px;
+            padding: 8px 15px;
+            border-color: #ddd;
+        }
+
+        .settings-section {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .settings-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .settings-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .settings-list li {
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        .btn-view-profile {
+            width: 100%;
+            background-color: #f8f9fa;
+            color: #3498db;
+            border: 1px solid #3498db;
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                border-left: none;
+                border-bottom: 1px solid #e9ecef;
+            }
+
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 15px;
+            }
+
+            .talent-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .talent-avatar {
+                margin-left: 0;
+                margin-bottom: 15px;
+            }
+
+            .talent-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .talent-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+
     <style>
         /* Trainer Search Styles */
         .trainer-search-container {
@@ -463,7 +823,8 @@
         }
 
         #trainer-search-btn {
-            border-radius: 2rem
+            border-radius: 2rem;
+            background-color: rgb(13, 110, 253);
         }
 
         .trainer-search-btn {
@@ -553,6 +914,74 @@
             }
         }
     </style>
+
+
+    <style>
+        /* Contact Form Styles */
+        #contact {
+            width: 100%;
+            margin-top: 5rem;
+        }
+
+        .php-email-form {
+            background: #fff;
+            box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+        }
+
+        /* Form Control Styles (existing) */
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .form-control:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        select.form-control {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+            padding-right: 2.5rem;
+        }
+
+        html[dir="rtl"] select.form-control {
+            background-position: left 1rem center;
+            padding-right: 1rem;
+            padding-left: 2.5rem;
+        }
+
+        /* Submit Button Styles */
+        .php-email-form button[type="submit"] {
+            background: #1977cc;
+            border: 0;
+            padding: 10px 24px;
+            color: #fff;
+            transition: 0.4s;
+            border-radius: 4px;
+        }
+
+        .php-email-form button[type="submit"]:hover {
+            background: #1c84e3;
+        }
+    </style>
+
 
     {{-- Search the coach in the trainers page
     <style>

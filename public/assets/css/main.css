@@ -772,6 +772,7 @@ h6 {
 }
 
 .page-title .heading {
+  height: 12rem;
   padding: 80px 0;
   border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
 }
@@ -784,6 +785,7 @@ h6 {
 .page-title nav {
   background-color: color-mix(in srgb, var(--accent-color) 90%, black 5%);
   padding: 20px 0;
+  margin: 0;
 }
 
 .page-title nav a {
@@ -839,18 +841,22 @@ section,
 }
 
 .section-title h2 {
-  font-size: 14px;
+  /* font-size: 14px; */
   font-weight: 500;
   padding: 0;
   line-height: 1px;
-  margin: 0;
+  margin-bottom: 3rem;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--default-color), transparent 50%);
-  position: absolute;
+  /* color: color-mix(in srgb, var(--default-color), transparent 50%); */
+  /* position: relative; */
+  display: flex;
+  align-self: center;
+  justify-self: center;
 }
 
-.section-title h2::after {
+.section-title h2::after,
+.section-title h2::before{
   content: "";
   width: 120px;
   height: 1px;
@@ -861,11 +867,14 @@ section,
 
 .section-title p {
   color: var(--heading-color);
-  margin: 0;
-  font-size: 36px;
-  font-weight: 700;
+  margin-top: 1rem;
+  font-size: 20px;
+  /* font-weight: 700; */
   font-family: var(--nav-font);
   text-transform: uppercase;
+  display: flex;
+  justify-self: start;
+  align-self: start;
 }
 
 /*--------------------------------------------------------------
@@ -1290,10 +1299,10 @@ section,
   font-size: 22px;
 }
 
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 # Trainers Index Section
 --------------------------------------------------------------*/
-.trainers-index .member {
+/* .trainers-index .member {
   background-color: var(--surface-color);
   border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
   text-align: center;
@@ -1344,7 +1353,7 @@ section,
 .trainers-index .member .social i {
   font-size: 18px;
   margin: 0 2px;
-}
+} */
 
 /*--------------------------------------------------------------
 # About Us Section

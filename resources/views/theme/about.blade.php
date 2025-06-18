@@ -5,8 +5,8 @@
     <main class="main">
 
         @include('theme.partials.heroSection', [
-            'title' => 'عن علمني بعلمك',
-            'description' => 'منصة لتبادل المهارات بين المدربين',
+            'title' => 'عن مهارات هب',
+            'description' => 'منصة لتبادل المهارات بين الاشخاص',
             'current' => 'معلمومات عنا',
         ])
 

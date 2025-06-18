@@ -10,10 +10,10 @@ class ThemeController extends Controller
     {
         return view("theme.index");
     }
-    
-    public function trainers()
+
+    public function skills()
     {
-        return view("theme.trainers");
+        return view("theme.skills");
     }
 
     public function about()
@@ -28,8 +28,6 @@ class ThemeController extends Controller
 
     public function login()
     {
-        dd('this is the login');
-        dd('this is the login');
         return view('theme.partials.login');
     }
     public function register()
