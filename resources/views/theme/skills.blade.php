@@ -3,6 +3,13 @@
 
 @section('content')
     <div class="skills-page rtl" dir="rtl">
+
+        @include('theme.partials.heroSection', [
+            'title' => 'مهارات',
+            'description' => 'منصة لتبادل المهارات بين الاشخاص',
+            'current' => 'مهارات',
+        ])
+
         <div class="container-fluid">
             <div class="row">
                 <!-- Sidebar Column -->

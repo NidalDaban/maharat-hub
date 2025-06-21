@@ -6,5 +6,7 @@
 <script src="{{ asset('assets') }}/vendor/purecounter/purecounter_vanilla.js"></script>
 <script src="{{ asset('assets') }}/vendor/swiper/swiper-bundle.min.js"></script>
 
+
 <!-- Main JS File -->
 <script src="{{ asset('assets') }}/js/main.js"></script>
+

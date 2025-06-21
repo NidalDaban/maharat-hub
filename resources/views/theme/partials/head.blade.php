@@ -5,10 +5,6 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
 
-    <!-- Favicons -->
-    {{-- <link href="{{ asset('assets') }}/img/favicon.png" rel="icon">
-    <link href="{{ asset('assets') }}/img/apple-touch-icon.png" rel="apple-touch-icon"> --}}
-
     <link
         href="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/skill-logo-design-template-6677debd608907e81c75e20c66e95baf_screen.jpg?ts=1685817469"
         rel="icon">
@@ -45,6 +41,18 @@
     <link href="{{ asset('assets') }}/css/main.css" rel="stylesheet">
 
     <style>
+        #google-anchor {
+            color: #0D6EFD;
+            border: 1px solid #0D6EFD;
+        }
+
+        #google-anchor:hover {
+            background-color: #0D6EFD;
+            color: white;
+        }
+    </style>
+
+    <style>
         @media (max-width: 768px) {
             .dropdown-menu.show {
                 position: relative !important;
@@ -64,6 +72,10 @@
         .dropdown-item {
             text-align: right;
             padding: 0.25rem 1.5rem;
+        }
+
+        .dropdown-item:hover {
+            background-color: #0D6EFD;
         }
 
         .avatar-placeholder {

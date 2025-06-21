@@ -21,6 +21,8 @@ Route::controller(ThemeController::class)->name('theme.')->group(function () {
     Route::get('/skills', 'skills')->name('skills');
     Route::get('/about', 'about')->name('about');
     Route::get('/contact', 'contact')->name('contact');
+    Route::get('/privacyPolicy', 'privacyPolicy')->name('privacyPolicy');
+    Route::get('/termsOfServices', 'termsOfServices')->name('termsOfServices');
 });
 
 
@@ -34,6 +36,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/myProfile', [ProfileController::class, 'myProfile'])->name('myProfile');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

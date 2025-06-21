@@ -19,8 +19,18 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'phone',
+        'date_of_birth',
+        'gender',
+        'country_id',
+        'role',
+        'about_me',
+        'language_id',
+        'image_path',
     ];
 
     /**
@@ -40,5 +50,25 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'date_of_birth' => 'date',
     ];
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }   
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'user_skills');
+    }
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
+    }
+
+    public function fullName(){
+        return trim("{$this->first_name} {$this->last_name}") ?: '';
+    }
 }

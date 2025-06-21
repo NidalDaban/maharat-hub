@@ -213,7 +213,7 @@
                 <p>انضم إلى منصتنا بثلاث خطوات بسيطة وابدأ بتبادل المهارات اليوم.</p>
             </div>
 
-            <div class="row gy-4 justify-content-center">
+            <div class="row gy-4 justify-content-center" id="index-row">
                 <!-- Step 1 -->
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="step-box text-center h-100">

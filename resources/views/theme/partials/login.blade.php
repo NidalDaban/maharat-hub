@@ -52,7 +52,7 @@
 
                                 <div class="text-center mt-3">
                                     <p>أو</p>
-                                    <a href="{{ route('google.login') }}" class="btn btn-outline-danger">
+                                    <a href="{{ route('google.login') }}" class="btn btn-outline-danger" id="google-anchor">
                                         <i class="bi bi-google me-2"></i> تسجيل الدخول باستخدام جوجل
                                     </a>
                                 </div>

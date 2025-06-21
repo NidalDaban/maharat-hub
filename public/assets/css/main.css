@@ -265,14 +265,39 @@ h6 {
 }
 
 @media (max-width: 1200px) {
-  .header .logo {
-    order: 1;
-  }
+
+  /* .header .btn-getstarted {
+    order: 2;
+    margin: 0 15px 0 0;    
+    padding: 6px 15px;
+  } */
+  
+  /* ===================== */
+  /* .header .auth-section {
+    order: 3; 
+    flex-shrink: 0;
+  } */
 
   .header .btn-getstarted {
-    order: 2;
-    margin: 0 15px 0 0;
-    padding: 6px 15px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  /* .header .logo {
+    flex-grow: 1;
+    justify-content: center;
+  } */
+
+  /* .header .navmenu {
+    flex-shrink: 1;
+    margin-right: auto;
+  } */
+
+  /* ===================== */
+
+  .header .logo {
+    order: 1;
   }
 
   .header .navmenu {
@@ -772,9 +797,10 @@ h6 {
 }
 
 .page-title .heading {
-  height: 12rem;
+  height: 15rem;
   padding: 80px 0;
   border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  color: white;
 }
 
 .page-title .heading h1 {
@@ -841,7 +867,7 @@ section,
 }
 
 .section-title h2 {
-  /* font-size: 14px; */
+  font-size: 1.65rem;
   font-weight: 500;
   padding: 0;
   line-height: 1px;
@@ -858,22 +884,23 @@ section,
 .section-title h2::after,
 .section-title h2::before{
   content: "";
-  width: 120px;
+  width: 2rem;
   height: 1px;
   display: inline-block;
   background: var(--accent-color);
-  margin: 4px 10px;
+  margin: .4rem .5rem;
 }
 
 .section-title p {
   color: var(--heading-color);
   margin-top: 1rem;
+  margin-bottom: 0;
   font-size: 20px;
   /* font-weight: 700; */
   font-family: var(--nav-font);
   text-transform: uppercase;
   display: flex;
-  justify-self: start;
+  justify-self: center;
   align-self: start;
 }
 

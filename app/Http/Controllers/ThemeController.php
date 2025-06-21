@@ -34,4 +34,12 @@ class ThemeController extends Controller
     {
         return view('theme.partials.register');
     }
+    public function privacyPolicy()
+    {
+        return view('theme.Important-links.privacy-policy');
+    }
+    public function termsOfServices()
+    {
+        return view('theme.Important-links.termsOfServices');
+    }
 }

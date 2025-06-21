@@ -13,23 +13,25 @@
                 <div class="social-links d-flex mt-4">
                     <a href=""><i class="bi bi-twitter-x"></i></a>
                     <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href="https://www.instagram.com/maharathub/"><i class="bi bi-instagram"></i></a>
-                    <a href="https://www.linkedin.com/company/maharat-hub"><i class="bi bi-linkedin"></i></a>
+                    <a href="https://www.instagram.com/maharathub/" target="_blank"><i class="bi bi-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/maharat-hub" target="_blank"><i
+                            class="bi bi-linkedin"></i></a>
                 </div>
             </div>
 
             <div class="col-lg-2 col-md-3 footer-links">
                 <h4>روابط مفيدة</h4>
                 <ul>
-                    <li><a href="#">الرئيسية</a></li>
-                    <li><a href="#">من نحن</a></li>
-                    <li><a href="#">خدماتنا</a></li>
-                    <li><a href="#">شروط الاستخدام</a></li>
-                    <li><a href="#">سياسة الخصوصية</a></li>
+                    <li><a href="{{ route('theme.index') }}">الرئيسية</a></li>
+                    <li><a href="{{ route('theme.about') }}">من نحن</a></li>
+                    <li><a href="{{ route('theme.skills') }}">مهارات</a></li>
+                    <li><a href="{{ route('theme.contact') }}">تواصل معنا</a></li>
+                    <li><a href="{{ route('theme.termsOfServices') }}">شروط الاستخدام</a></li>
+                    <li><a href="{{ route('theme.privacyPolicy') }}">سياسة الخصوصية</a></li>
                 </ul>
             </div>
 
-            <div class="col-lg-2 col-md-3 footer-links">
+            {{-- <div class="col-lg-2 col-md-3 footer-links">
                 <h4>خدماتنا</h4>
                 <ul>
                     <li><a href="#">تصميم المواقع</a></li>
@@ -38,7 +40,7 @@
                     <li><a href="#">التسويق</a></li>
                     <li><a href="#">تصميم الجرافيك</a></li>
                 </ul>
-            </div>
+            </div> --}}
 
             {{-- <div class="col-lg-4 col-md-12 footer-newsletter">
                 <h4>النشرة البريدية</h4>
@@ -60,13 +62,6 @@
     <div class="container copyright text-center mt-4">
         <p>© <span>حقوق النشر</span> <strong class="px-1 sitename">مهارات هب</strong> <span>جميع الحقوق محفوظة</span>
         </p>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you've purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-            {{-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> --}}
-        </div>
     </div>
 
 </footer>
