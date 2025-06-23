@@ -54,18 +54,6 @@ class User extends Authenticatable
             ->withPivot('level');
     }
 
-    // public static function languageLevels(): array
-    // {
-    //     return [
-    //         'مبتدئ جدًا',
-    //         'مبتدئ',
-    //         'ما قبل المتوسط',
-    //         'متوسط',
-    //         'فوق المتوسط',
-    //         'متقدم جدًا'
-    //     ];
-    // }
-
     public function fullName()
     {
         return trim("{$this->first_name} {$this->last_name}") ?: '';
@@ -81,4 +69,6 @@ class User extends Authenticatable
             ? 'https://cdn-icons-png.flaticon.com/512/4140/4140047.png'
             : 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png';
     }
+
+    
 }

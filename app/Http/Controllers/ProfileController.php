@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Classification;
 use App\Models\Country;
 use App\Models\Skill;
 use App\Models\User;
@@ -23,14 +24,22 @@ class ProfileController extends Controller
             ->find(auth()->id());
 
         $countries = Country::all();
-        $skills = Skill::all();
+        $skills = Skill::with('classification')->get();
         $languages = Language::all();
+        $classifications = Classification::with('skills')->get();
 
-        return view('theme.myProfile.master', compact('user', 'countries', 'skills', 'languages'));
+        return view('theme.myProfile.master', compact(
+            'user',
+            'countries',
+            'skills',
+            'languages',
+            'classifications'
+        ));
     }
 
     public function edit(Request $request): View
     {
+
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
@@ -77,8 +86,59 @@ class ProfileController extends Controller
             $user->languages()->sync($languagesWithLevels);
         }
 
-        return Redirect::route('myProfile')->with('success', 'تم تحديث الملف الشخصي بنجاح!');
+        return Redirect::route('myProfile')->with('success', 'تم تحديث المعلومات بنجاح!');
     }
+
+
+    public function getSkills(Request $request)
+    {
+        $perPage = 10;
+        $page = $request->get('page', 1);
+        $search = $request->get('search', '');
+        $classificationId = $request->get('classification_id', null);
+
+        $query = Skill::with('classification');
+
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        if ($classificationId) {
+            $query->where('classification_id', $classificationId);
+        }
+
+        $skills = $query->paginate($perPage, ['*'], 'page', $page);
+
+        return response()->json([
+            'data' => $skills->items(),
+            'total' => $skills->total(),
+            'current_page' => $skills->currentPage(),
+            'last_page' => $skills->lastPage(),
+        ]);
+    }
+
+    public function getLanguages(Request $request)
+    {
+        $perPage = 10;
+        $page = $request->get('page', 1);
+        $search = $request->get('search', '');
+
+        $query = Language::query();
+
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $languages = $query->paginate($perPage, ['*'], 'page', $page);
+
+        return response()->json([
+            'data' => $languages->items(),
+            'total' => $languages->total(),
+            'current_page' => $languages->currentPage(),
+            'last_page' => $languages->lastPage(),
+        ]);
+    }
+
 
     public function destroy(Request $request): RedirectResponse
     {

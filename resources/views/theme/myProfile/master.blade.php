@@ -142,6 +142,67 @@
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.3);
         }
 
+        /* Languages Skills */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            text-align: right;
+        }
+
+        .table td,
+        .table th {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.075);
+        }
+
+        .pagination {
+            margin: 0;
+        }
+
+        .page-link {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-right: -1px;
+            line-height: 1.25;
+            color: #4e73df;
+            background-color: #fff;
+            border: 1px solid #dddfeb;
+        }
+
+        .page-item.active .page-link {
+            z-index: 3;
+            color: #fff;
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+
+        .page-item.disabled .page-link {
+            color: #b7b9cc;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dddfeb;
+        }
+
+        /* Languages Skills */
+
         @media (max-width: 992px) {
             .sidebar {
                 right: -250px;
@@ -278,7 +339,6 @@
                                 </div>
                             </div>
 
-                            {{-- here --}}
                             <div class="col-lg-9 profile-info">
                                 <div class="card mb-4">
                                     <div class="card-header py-3">
@@ -330,8 +390,6 @@
                                         @forelse($user->skills as $skill)
                                             <span class="badge bg-primary skill-badge">
                                                 {{ $skill->name }}
-                                                <span
-                                                    class="language-level">{{ $skill->pivot->level ?? 'غير محدد' }}</span>
                                             </span>
                                         @empty
                                             <p class="text-muted">لا توجد مهارات محددة</p>
@@ -452,78 +510,204 @@
                                         </div>
                                     </div>
 
+
+                                    <!-- Updated Skills Section -->
                                     <div class="card mb-4">
                                         <div class="card-header py-3">
-                                            <h6 class="m-0 font-weight-bold text-white">المهارات</h6>
+                                            <h6 class="m-0 font-weight-bold text-white">المهارات التي يمكنك تعليمها
+                                            </h6>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row">
-                                                @foreach ($skills as $skill)
-                                                    <div class="col-md-4 col-sm-6 mb-2">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                name="skills[{{ $skill->id }}]"
-                                                                id="skill_{{ $skill->id }}"
-                                                                value="{{ $skill->id }}"
-                                                                @if ($user->skills->contains($skill->id)) checked @endif>
-                                                            <label class="form-check-label"
-                                                                for="skill_{{ $skill->id }}">
-                                                                {{ $skill->name }}
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="skillFilterType" class="form-label">نوع
+                                                        التصفية</label>
+                                                    <select class="form-select" id="skillFilterType">
+                                                        <option value="none">غير محدد</option>
+                                                        <option value="skill">المهارة</option>
+                                                        <option value="classification">الفئة</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4" id="skillNameFilterContainer"
+                                                    style="display: none;">
+                                                    <label for="skillNameFilter" class="form-label">بحث
+                                                        بالمهارة</label>
+                                                    <input type="text" class="form-control" id="skillNameFilter"
+                                                        placeholder="أدخل اسم المهارة">
+                                                </div>
+                                                <div class="col-md-4" id="classificationFilterContainer"
+                                                    style="display: none;">
+                                                    <label for="classificationFilter" class="form-label">بحث
+                                                        بالفئة</label>
+                                                    <select class="form-select" id="classificationFilter">
+                                                        <option value="">اختر الفئة...</option>
+                                                        @foreach ($classifications as $classification)
+                                                            <option value="{{ $classification->id }}">
+                                                                {{ $classification->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-hover">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th width="40%">المهارة</th>
+                                                            <th width="40%">الفئة</th>
+                                                            <th width="20%">الاختيار</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="skillsTableBody">
+                                                        @foreach ($skills->forPage(1, 10) as $skill)
+                                                            <tr>
+                                                                <td>{{ $skill->name }}</td>
+                                                                <td>{{ $skill->classification->name ?? 'غير محدد' }}
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        name="skills[{{ $skill->id }}]"
+                                                                        id="skill_{{ $skill->id }}"
+                                                                        value="{{ $skill->id }}"
+                                                                        @if ($user->skills->contains($skill->id)) checked @endif>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-6">
+                                                    <p class="text-muted">عرض <span id="skillsFrom">1</span> إلى <span
+                                                            id="skillsTo">10</span> من <span
+                                                            id="skillsTotal">{{ $skills->count() }}</span> مهارات</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <nav aria-label="Skills pagination" class="float-end">
+                                                        <ul class="pagination">
+                                                            <li class="page-item disabled" id="skillsPrevPage">
+                                                                <a class="page-link" href="#"
+                                                                    tabindex="-1">السابقة</a>
+                                                            </li>
+                                                            <li class="page-item active"><a class="page-link"
+                                                                    href="#">1</a></li>
+                                                            @for ($i = 2; $i <= ceil($skills->count() / 10); $i++)
+                                                                <li class="page-item"><a class="page-link"
+                                                                        href="#">{{ $i }}</a></li>
+                                                            @endfor
+                                                            <li class="page-item" id="skillsNextPage">
+                                                                <a class="page-link" href="#">التالية</a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
+                                    <!-- Updated Languages Section -->
                                     <div class="card mb-4">
                                         <div class="card-header py-3">
-                                            <h6 class="m-0 font-weight-bold text-white">اللغات</h6>
+                                            <h6 class="m-0 font-weight-bold text-white">لغات التواصل</h6>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row">
-                                                @foreach ($languages as $language)
-                                                    <div class="col-md-6 mb-3">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input language-checkbox"
-                                                                type="checkbox"
-                                                                name="languages[{{ $language->id }}][selected]"
-                                                                id="language_{{ $language->id }}" value="1"
-                                                                @if ($user->languages->contains($language->id)) checked @endif>
-                                                            <label class="form-check-label"
-                                                                for="language_{{ $language->id }}">
-                                                                {{ $language->name }}
-                                                            </label>
-                                                        </div>
-                                                        <select class="form-select mt-1 language-level"
-                                                            name="languages[{{ $language->id }}][level]"
-                                                            @if (!$user->languages->contains($language->id)) disabled @endif>
-                                                            <option value="">اختر المستوى...</option>
-                                                            <option value="مبتدئ جدًا"
-                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'مبتدئ جدًا' ? 'selected' : '' }} @endif>
-                                                                مبتدئ جدًا (A1)</option>
-                                                            <option value="مبتدئ"
-                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'مبتدئ' ? 'selected' : '' }} @endif>
-                                                                مبتدئ (A2)</option>
-                                                            <option value="ما قبل المتوسط"
-                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'ما قبل المتوسط' ? 'selected' : '' }} @endif>
-                                                                ما قبل المتوسط (B1)</option>
-                                                            <option value="متوسط"
-                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'متوسط' ? 'selected' : '' }} @endif>
-                                                                متوسط (B2)</option>
-                                                            <option value="فوق المتوسط"
-                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'فوق المتوسط' ? 'selected' : '' }} @endif>
-                                                                فوق المتوسط (C1)</option>
-                                                            <option value="متقدم جدًا"
-                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'متقدم جدًا' ? 'selected' : '' }} @endif>
-                                                                متقدم جدًا (C2)</option>
-                                                        </select>
-                                                    </div>
-                                                @endforeach
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="languageFilter" class="form-label">بحث باللغة</label>
+                                                    <input type="text" class="form-control" id="languageFilter"
+                                                        placeholder="أدخل اسم اللغة">
+                                                </div>
+                                            </div>
+
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-hover">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th width="50%">اللغة</th>
+                                                            <th width="30%">المستوى</th>
+                                                            <th width="20%">الاختيار</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="languagesTableBody">
+                                                        @foreach ($languages->forPage(1, 10) as $language)
+                                                            <tr>
+                                                                <td>{{ $language->name }}</td>
+                                                                <td>
+                                                                    <select class="form-select language-level"
+                                                                        name="languages[{{ $language->id }}][level]"
+                                                                        @if (!$user->languages->contains($language->id)) disabled @endif>
+                                                                        <option value="">اختر المستوى...</option>
+                                                                        <option value="مبتدئ جدًا"
+                                                                            @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'مبتدئ جدًا' ? 'selected' : '' }} @endif>
+                                                                            مبتدئ جدًا (A1)
+                                                                        </option>
+                                                                        <option value="مبتدئ"
+                                                                            @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'مبتدئ' ? 'selected' : '' }} @endif>
+                                                                            مبتدئ (A2)
+                                                                        </option>
+                                                                        <option value="ما قبل المتوسط"
+                                                                            @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'ما قبل المتوسط' ? 'selected' : '' }} @endif>
+                                                                            ما قبل المتوسط (B1)
+                                                                        </option>
+                                                                        <option value="متوسط"
+                                                                            @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'متوسط' ? 'selected' : '' }} @endif>
+                                                                            متوسط (B2)
+                                                                        </option>
+                                                                        <option value="فوق المتوسط"
+                                                                            @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'فوق المتوسط' ? 'selected' : '' }} @endif>
+                                                                            فوق المتوسط (C1)
+                                                                        </option>
+                                                                        <option value="متقدم جدًا"
+                                                                            @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'متقدم جدًا' ? 'selected' : '' }} @endif>
+                                                                            متقدم جدًا (C2)
+                                                                        </option>
+                                                                    </select>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <input class="form-check-input language-checkbox"
+                                                                        type="checkbox"
+                                                                        name="languages[{{ $language->id }}][selected]"
+                                                                        id="language_{{ $language->id }}"
+                                                                        value="1"
+                                                                        @if ($user->languages->contains($language->id)) checked @endif>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-6">
+                                                    <p class="text-muted">عرض <span id="languagesFrom">1</span> إلى
+                                                        <span id="languagesTo">10</span> من <span
+                                                            id="languagesTotal">{{ $languages->count() }}</span> لغات
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <nav aria-label="Languages pagination" class="float-end">
+                                                        <ul class="pagination">
+                                                            <li class="page-item disabled" id="languagesPrevPage">
+                                                                <a class="page-link" href="#"
+                                                                    tabindex="-1">السابقة</a>
+                                                            </li>
+                                                            <li class="page-item active"><a class="page-link"
+                                                                    href="#">1</a></li>
+                                                            @for ($i = 2; $i <= ceil($languages->count() / 10); $i++)
+                                                                <li class="page-item"><a class="page-link"
+                                                                        href="#">{{ $i }}</a></li>
+                                                            @endfor
+                                                            <li class="page-item" id="languagesNextPage">
+                                                                <a class="page-link" href="#">التالية</a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
 
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary btn-lg">
@@ -547,12 +731,432 @@
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    {{-- Languages and Skills --}}
+    <script>
+        $(document).ready(function() {
+            // Skills section functionality
+            const skillsPerPage = 10;
+            let currentSkillsPage = 1;
+            let filteredSkills = @json($skills);
+            let allSelectedSkills = @json($user->skills->pluck('id')->toArray());
+
+            const languagesPerPage = 10;
+            let currentLanguagesPage = 1;
+            let filteredLanguages = @json($languages);
+            let allLanguagesData = @json($languages);
+
+            // Store selected languages and their levels
+            let selectedLanguages = {};
+            // Initialize with user's current languages
+            @foreach ($user->languages as $lang)
+                selectedLanguages[{{ $lang->id }}] = {
+                    selected: true,
+                    level: '{{ $lang->pivot->level }}'
+                };
+            @endforeach
+
+            // Initialize tables
+            renderSkillsTable();
+            renderLanguagesTable();
+
+            // Skills filter type change
+            $('#skillFilterType').change(function() {
+                const filterType = $(this).val();
+
+                $('#skillNameFilterContainer').toggle(filterType === 'skill');
+                $('#classificationFilterContainer').toggle(filterType === 'classification');
+
+                if (filterType === 'none') {
+                    filteredSkills = @json($skills);
+                    currentSkillsPage = 1;
+                    renderSkillsTable();
+                }
+            });
+
+            // Skill name filter
+            $('#skillNameFilter').keyup(function() {
+                const searchTerm = $(this).val().toLowerCase();
+                filteredSkills = @json($skills).filter(skill =>
+                    skill.name.toLowerCase().includes(searchTerm)
+                );
+                currentSkillsPage = 1;
+                renderSkillsTable();
+            });
+
+            // Classification filter
+            $('#classificationFilter').change(function() {
+                const classificationId = $(this).val();
+                if (!classificationId) {
+                    filteredSkills = @json($skills);
+                } else {
+                    filteredSkills = @json($skills).filter(skill =>
+                        skill.classification_id == classificationId
+                    );
+                }
+                currentSkillsPage = 1;
+                renderSkillsTable();
+            });
+
+            // Track skill selection changes
+            $(document).on('change', '.form-check-input[type="checkbox"][name^="skills"]', function() {
+                const skillId = parseInt($(this).val());
+                if ($(this).is(':checked')) {
+                    if (!allSelectedSkills.includes(skillId)) {
+                        allSelectedSkills.push(skillId);
+                    }
+                } else {
+                    allSelectedSkills = allSelectedSkills.filter(id => id !== skillId);
+                }
+            });
+
+            // Skills pagination
+            $(document).on('click', '.skills-page-link', function(e) {
+                e.preventDefault();
+                currentSkillsPage = parseInt($(this).data('page'));
+                renderSkillsTable();
+            });
+
+            $(document).on('click', '#skillsPrevPage', function(e) {
+                e.preventDefault();
+                if (currentSkillsPage > 1) {
+                    currentSkillsPage--;
+                    renderSkillsTable();
+                }
+            });
+
+            $(document).on('click', '#skillsNextPage', function(e) {
+                e.preventDefault();
+                if (currentSkillsPage < Math.ceil(filteredSkills.length / skillsPerPage)) {
+                    currentSkillsPage++;
+                    renderSkillsTable();
+                }
+            });
+
+            function renderSkillsTable() {
+                const startIndex = (currentSkillsPage - 1) * skillsPerPage;
+                const paginatedSkills = filteredSkills.slice(startIndex, startIndex + skillsPerPage);
+
+                let html = '';
+                paginatedSkills.forEach(skill => {
+                    html += `
+            <tr>
+                <td>${skill.name}</td>
+                <td>${skill.classification ? skill.classification.name : 'غير محدد'}</td>
+                <td class="text-center">
+                    <input class="form-check-input" type="checkbox"
+                        name="skills[${skill.id}]"
+                        id="skill_${skill.id}"
+                        value="${skill.id}"
+                        ${allSelectedSkills.includes(skill.id) ? 'checked' : ''}>
+                </td>
+            </tr>`;
+                });
+
+                $('#skillsTableBody').html(html);
+                updateSkillsPaginationInfo();
+            }
+
+            function updateSkillsPaginationInfo() {
+                const startIndex = (currentSkillsPage - 1) * skillsPerPage;
+                $('#skillsFrom').text(startIndex + 1);
+                $('#skillsTo').text(Math.min(startIndex + skillsPerPage, filteredSkills.length));
+                $('#skillsTotal').text(filteredSkills.length);
+
+                const totalPages = Math.ceil(filteredSkills.length / skillsPerPage);
+                let paginationHtml = `
+        <li class="page-item ${currentSkillsPage === 1 ? 'disabled' : ''}" id="skillsPrevPage">
+            <a class="page-link" href="#" tabindex="-1">السابقة</a>
+        </li>`;
+
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationHtml += `
+            <li class="page-item ${i === currentSkillsPage ? 'active' : ''}">
+                <a class="page-link skills-page-link" href="#" data-page="${i}">${i}</a>
+            </li>`;
+                }
+
+                paginationHtml += `
+        <li class="page-item ${currentSkillsPage === totalPages ? 'disabled' : ''}" id="skillsNextPage">
+            <a class="page-link" href="#">التالية</a>
+        </li>`;
+
+                $('.pagination').first().html(paginationHtml);
+            }
+
+            // Language filter
+            $('#languageFilter').keyup(function() {
+                const searchTerm = $(this).val().toLowerCase();
+                filteredLanguages = allLanguagesData.filter(language =>
+                    language.name.toLowerCase().includes(searchTerm)
+                );
+                currentLanguagesPage = 1;
+                renderLanguagesTable();
+            });
+
+            // Languages pagination
+            $(document).on('click', '.languages-page-link', function(e) {
+                e.preventDefault();
+                currentLanguagesPage = parseInt($(this).data('page'));
+                renderLanguagesTable();
+            });
+
+            $(document).on('click', '#languagesPrevPage', function(e) {
+                e.preventDefault();
+                if (currentLanguagesPage > 1) {
+                    currentLanguagesPage--;
+                    renderLanguagesTable();
+                }
+            });
+
+            $(document).on('click', '#languagesNextPage', function(e) {
+                e.preventDefault();
+                if (currentLanguagesPage < Math.ceil(filteredLanguages.length / languagesPerPage)) {
+                    currentLanguagesPage++;
+                    renderLanguagesTable();
+                }
+            });
+
+            // Language checkbox handling
+            $(document).on('change', '.language-checkbox', function() {
+                const row = $(this).closest('tr');
+                const levelSelect = row.find('.language-level');
+                const languageId = parseInt($(this).val());
+
+                if ($(this).is(':checked')) {
+                    // Set default level if not already set
+                    if (!levelSelect.val()) {
+                        levelSelect.val('مبتدئ');
+                    }
+                    levelSelect.prop('disabled', false);
+
+                    // Update selectedLanguages object
+                    selectedLanguages[languageId] = {
+                        selected: true,
+                        level: levelSelect.val()
+                    };
+                } else {
+                    levelSelect.prop('disabled', true);
+
+                    // Update selectedLanguages object
+                    delete selectedLanguages[languageId];
+                }
+            });
+
+            // Handle language level changes
+            $(document).on('change', '.language-level', function() {
+                const languageId = parseInt($(this).closest('tr').find('.language-checkbox').val());
+                if (selectedLanguages[languageId]) {
+                    selectedLanguages[languageId].level = $(this).val();
+                }
+            });
+
+            function renderLanguagesTable() {
+                const startIndex = (currentLanguagesPage - 1) * languagesPerPage;
+                const paginatedLanguages = filteredLanguages.slice(startIndex, startIndex + languagesPerPage);
+
+                let html = '';
+                paginatedLanguages.forEach(language => {
+                    const isSelected = selectedLanguages.hasOwnProperty(language.id);
+                    const level = isSelected ? selectedLanguages[language.id].level : '';
+
+                    html += `
+            <tr>
+                <td>${language.name}</td>
+                <td>
+                    <select class="form-select language-level" 
+                        name="languages[${language.id}][level]"
+                        ${isSelected ? '' : 'disabled'}>
+                        <option value="">اختر المستوى...</option>
+                        <option value="مبتدئ جدًا" ${level === 'مبتدئ جدًا' ? 'selected' : ''}>
+                            مبتدئ جدًا (A1)
+                        </option>
+                        <option value="مبتدئ" ${level === 'مبتدئ' ? 'selected' : ''}>
+                            مبتدئ (A2)
+                        </option>
+                        <option value="ما قبل المتوسط" ${level === 'ما قبل المتوسط' ? 'selected' : ''}>
+                            ما قبل المتوسط (B1)
+                        </option>
+                        <option value="متوسط" ${level === 'متوسط' ? 'selected' : ''}>
+                            متوسط (B2)
+                        </option>
+                        <option value="فوق المتوسط" ${level === 'فوق المتوسط' ? 'selected' : ''}>
+                            فوق المتوسط (C1)
+                        </option>
+                        <option value="متقدم جدًا" ${level === 'متقدم جدًا' ? 'selected' : ''}>
+                            متقدم جدًا (C2)
+                        </option>
+                    </select>
+                </td>
+                <td class="text-center">
+                    <input class="form-check-input language-checkbox" type="checkbox"
+                        name="languages[${language.id}][selected]"
+                        id="language_${language.id}" value="${language.id}"
+                        ${isSelected ? 'checked' : ''}>
+                </td>
+            </tr>`;
+                });
+
+                $('#languagesTableBody').html(html);
+                updateLanguagesPaginationInfo();
+            }
+
+            function updateLanguagesPaginationInfo() {
+                const startIndex = (currentLanguagesPage - 1) * languagesPerPage;
+                $('#languagesFrom').text(startIndex + 1);
+                $('#languagesTo').text(Math.min(startIndex + languagesPerPage, filteredLanguages.length));
+                $('#languagesTotal').text(filteredLanguages.length);
+
+                const totalPages = Math.ceil(filteredLanguages.length / languagesPerPage);
+                let paginationHtml = `
+        <li class="page-item ${currentLanguagesPage === 1 ? 'disabled' : ''}" id="languagesPrevPage">
+            <a class="page-link" href="#" tabindex="-1">السابقة</a>
+        </li>`;
+
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationHtml += `
+            <li class="page-item ${i === currentLanguagesPage ? 'active' : ''}">
+                <a class="page-link languages-page-link" href="#" data-page="${i}">${i}</a>
+            </li>`;
+                }
+
+                paginationHtml += `
+        <li class="page-item ${currentLanguagesPage === totalPages ? 'disabled' : ''}" id="languagesNextPage">
+            <a class="page-link" href="#">التالية</a>
+        </li>`;
+
+                $('.pagination').last().html(paginationHtml);
+            }
+
+            $('#profileForm').on('submit', function(e) {
+                e.preventDefault(); // Always prevent default first
+                const form = this;
+
+                // Validate languages
+                const invalidLanguages = [];
+                Object.keys(selectedLanguages).forEach(langId => {
+                    if (!selectedLanguages[langId].level) {
+                        const langName = allLanguagesData.find(l => l.id == langId)?.name ||
+                            'Unknown';
+                        invalidLanguages.push(langName);
+                    }
+                });
+
+                if (invalidLanguages.length > 0) {
+                    Swal.fire({
+                        title: 'خطأ',
+                        html: `الرجاء تحديد مستوى للغات التالية:<br>${invalidLanguages.join('<br>')}`,
+                        icon: 'error',
+                        confirmButtonColor: '#4e73df'
+                    });
+                    return false;
+                }
+
+                // Remove previously added hidden inputs (if any)
+                $('.dynamic-skill-input').remove();
+                $('.dynamic-language-input').remove();
+
+                // Append hidden inputs for selected skills
+                allSelectedSkills.forEach(skillId => {
+                    $('<input>')
+                        .attr({
+                            type: 'hidden',
+                            name: `skills[${skillId}]`,
+                            value: skillId,
+                            class: 'dynamic-skill-input'
+                        })
+                        .appendTo(form);
+                });
+
+                // Append hidden inputs for selected languages and their levels
+                Object.keys(selectedLanguages).forEach(langId => {
+                    $('<input>')
+                        .attr({
+                            type: 'hidden',
+                            name: `languages[${langId}][selected]`,
+                            value: '1',
+                            class: 'dynamic-language-input'
+                        })
+                        .appendTo(form);
+
+                    $('<input>')
+                        .attr({
+                            type: 'hidden',
+                            name: `languages[${langId}][level]`,
+                            value: selectedLanguages[langId].level,
+                            class: 'dynamic-language-input'
+                        })
+                        .appendTo(form);
+                });
+
+                // Show confirmation dialog
+                Swal.fire({
+                    title: 'هل أنت متأكد؟',
+                    text: "سيتم حفظ التغييرات التي أجريتها على ملفك الشخصي",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#4e73df',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم، احفظ',
+                    cancelButtonText: 'إلغاء'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Submit manually after confirmation
+                    }
+                });
+            });
+
+            // Initialize Select2 for country select
+            $('#country_id').select2({
+                placeholder: "اختر البلد...",
+                dir: "rtl",
+                width: '100%'
+            });
+
+            // Sidebar toggle functionality
+            const sidebar = $('#sidebar');
+            const sidebarToggle = $('#sidebarToggle');
+            const mobileSidebarToggle = $('#mobileSidebarToggle');
+            const mobileSidebarToggle2 = $('#mobileSidebarToggle2');
+
+            sidebarToggle.on('click', function() {
+                sidebar.toggleClass('show');
+            });
+
+            mobileSidebarToggle.on('click', function() {
+                sidebar.toggleClass('show');
+            });
+
+            mobileSidebarToggle2.on('click', function() {
+                sidebar.toggleClass('show');
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest(
+                        '#sidebar, #sidebarToggle, #mobileSidebarToggle, #mobileSidebarToggle2').length) {
+                    sidebar.removeClass('show');
+                }
+            });
+
+            @if (session('success'))
+                Swal.fire({
+                    title: 'تم!',
+                    text: '{{ session('success') }}',
+                    icon: 'success',
+                    confirmButtonColor: '#4e73df'
+                });
+            @endif
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             $('#country_id').select2({
                 placeholder: "اختر البلد...",
-                dir: "rtl", // RTL support for Arabic
-                width: '100%' // Match Bootstrap 5 form-control width
+                dir: "rtl",
+                width: '100%'
             });
         });
     </script>
@@ -572,7 +1176,6 @@
             }
         });
 
-        // Form submission with SweetAlert
         $('#profileForm').on('submit', function(e) {
             e.preventDefault();
 
@@ -594,7 +1197,6 @@
             });
         });
 
-        // Show success message if exists
         @if (session('success'))
             Swal.fire({
                 title: 'تم!',
@@ -604,29 +1206,24 @@
             });
         @endif
 
-        // Mobile sidebar toggle functionality
         $(document).ready(function() {
             const sidebar = $('#sidebar');
             const sidebarToggle = $('#sidebarToggle');
             const mobileSidebarToggle = $('#mobileSidebarToggle');
             const mobileSidebarToggle2 = $('#mobileSidebarToggle2');
 
-            // Floating toggle button
             sidebarToggle.on('click', function() {
                 sidebar.toggleClass('show');
             });
 
-            // Mobile menu button in header
             mobileSidebarToggle.on('click', function() {
                 sidebar.toggleClass('show');
             });
 
-            // Mobile menu button in edit profile
             mobileSidebarToggle2.on('click', function() {
                 sidebar.toggleClass('show');
             });
 
-            // Close sidebar when clicking outside
             $(document).on('click', function(e) {
                 if (!$(e.target).closest(
                         '#sidebar, #sidebarToggle, #mobileSidebarToggle, #mobileSidebarToggle2').length) {
@@ -635,6 +1232,7 @@
             });
         });
     </script>
+
 </body>
 
 </html>
