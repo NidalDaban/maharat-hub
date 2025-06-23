@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Skill extends Model  // Changed from Skills to Skill
+class Skill extends Model
 {
     use HasFactory;
 
@@ -18,6 +18,6 @@ class Skill extends Model  // Changed from Skills to Skill
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_skills'); // Correct table name
+        return $this->belongsToMany(User::class, 'user_skills');
     }
 }

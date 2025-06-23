@@ -6,78 +6,207 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حسابي - مهارات هاب</title>
 
+    <link
+        href="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/skill-logo-design-template-6677debd608907e81c75e20c66e95baf_screen.jpg?ts=1685817469"
+        rel="icon">
+
     <!-- Bootstrap 5 RTL CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-
     <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #f8f9fc;
+            --accent-color: #2e59d9;
+            --text-color: #5a5c69;
+        }
+
         body {
-            padding-top: 56px;
-            background-color: #f8f9fa;
+            padding-top: 70px;
+            background-color: #f8f9fc;
+            color: var(--text-color);
+            font-family: 'Tajawal', sans-serif;
+            overflow-x: hidden;
+        }
+
+        #logo {
+            max-height: 36px;
+            margin-right: 8px;
         }
 
         .sidebar {
-            min-height: calc(100vh - 56px);
-            background-color: #f8f9fa;
-            border-right: 1px solid #dee2e6;
+            position: fixed;
+            top: 70px;
+            bottom: 0;
+            right: 0;
+            /* width: 250px; */
+            width: 16rem;
+            background: white;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            z-index: 10;
+            transition: all 0.3s;
+            overflow-y: auto;
+        }
+
+        .sidebar.collapsed {
+            right: -250px;
+        }
+
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            margin-right: 250px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .main-content.expanded {
+            margin-right: 0;
         }
 
         .nav-link {
-            color: #495057;
-            border-radius: 0.25rem;
-            margin-bottom: 0.25rem;
+            color: #d1d3e2;
+            padding: 1rem;
+            border-left: 3px solid transparent;
         }
 
         .nav-link.active {
-            color: #0d6efd;
-            background-color: #e7f1ff;
+            color: var(--primary-color);
+            background-color: rgba(78, 115, 223, 0.05);
+            border-left-color: var(--primary-color);
         }
 
         .nav-link:hover {
-            color: #0d6efd;
+            color: var(--primary-color);
         }
 
-        .select2 {
-            width: 100% !important;
+        .nav-bar-link:hover {
+            color: #333;
         }
 
         .profile-img {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .edit-img {
             width: 150px;
             height: 150px;
             object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+
+        .card {
+            border: none;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 0.35rem 0.35rem 0 0 !important;
+        }
+
+        .skill-badge {
+            font-size: 0.9rem;
+            margin: 0.2rem;
+            padding: 0.5rem 0.8rem;
+        }
+
+        .language-level {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: #e9ecef;
+            border-radius: 0.25rem;
+            margin-left: 0.5rem;
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.3);
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                right: -250px;
+            }
+
+            .sidebar.show {
+                right: 0;
+            }
+
+            .main-content {
+                margin-right: 0;
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile-img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .profile-section {
+                flex-direction: column;
+            }
+
+            .profile-info {
+                order: 2;
+            }
+
+            .profile-image {
+                order: 1;
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('theme.index') }}">مهارات هاب</a>
+            <a class="navbar-brand fw-bold" href="{{ route('theme.index') }}">
+                <img id="logo"
+                    src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/skill-logo-design-template-6677debd608907e81c75e20c66e95baf_screen.jpg?ts=1685817469"
+                    alt="العلامة التجرية">
+                <i id="fas" class="fas me-2"></i>مهارات هاب
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">الرئيسية</a>
+                        <a class="nav-link nav-bar-link" id="nav-link" href="{{ route('theme.index') }}">الرئيسية</a>
                     </li>
                 </ul>
                 <div class="d-flex">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="btn btn-outline-light">تسجيل الخروج</button>
+                        <button type="submit" class="btn btn-outline-light">
+                            <i class="fas fa-sign-out-alt me-1"></i> تسجيل الخروج
+                        </button>
                     </form>
                 </div>
             </div>
@@ -87,8 +216,15 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 d-md-block sidebar">
-                <div class="position-sticky pt-3">
+            <div class="sidebar" id="sidebar">
+                <div class="pt-4 px-3">
+                    <div class="text-center mb-4">
+                        <img src="{{ $user->image_url }}" class="rounded-circle profile-img mb-3"
+                            alt="صورة الملف الشخصي">
+                        <h5 class="fw-bold">{{ $user->fullName() }}</h5>
+                        <p class="text-muted">{{ $user->email }}</p>
+                    </div>
+
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link active" href="#profile-info" data-bs-toggle="tab">
@@ -104,55 +240,119 @@
                 </div>
             </div>
 
+            <!-- Sidebar Toggle Button -->
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
             <!-- Main Content -->
-            <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <div class="main-content" id="mainContent">
                 <div class="tab-content">
                     <!-- Profile Info Tab -->
                     <div class="tab-pane fade show active" id="profile-info">
-                        <div
-                            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 class="h2">حسابي</h1>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2 class="fw-bold text-primary">
+                                <i class="fas fa-user me-2"></i>حسابي
+                            </h2>
+                            <button class="btn btn-primary d-lg-none" id="mobileSidebarToggle">
+                                <i class="fas fa-bars"></i> القائمة
+                            </button>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-4 text-center">
-                                <img src="{{ $user->image_path ? asset('storage/' . $user->image_path) : asset('images/default-profile.png') }}"
-                                    class="img-thumbnail rounded-circle profile-img mb-3" alt="Profile Image">
-                                <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>
-                                <p class="text-muted">{{ $user->email }}</p>
+                        <div class="row profile-section">
+                            <div class="col-lg-4 profile-image">
+                                <div class="card mb-4">
+                                    <div class="card-body text-center">
+                                        <img src="{{ $user->image_url }}" class="rounded-circle profile-img mb-3"
+                                            alt="صورة الملف الشخصي">
+                                        <h3 class="fw-bold">{{ $user->fullName() }}</h3>
+                                        <p class="text-muted mb-4">{{ $user->email }}</p>
+
+                                        <div class="d-flex justify-content-center mb-2">
+                                            <button class="btn btn-primary me-2" data-bs-toggle="tab"
+                                                data-bs-target="#edit-profile">
+                                                <i class="fas fa-edit me-1"></i> تعديل
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="card">
+
+                            {{-- here --}}
+                            <div class="col-lg-9 profile-info">
+                                <div class="card mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-white">معلومات الاتصال</h6>
+                                    </div>
                                     <div class="card-body">
-                                        <h5 class="card-title">معلوماتي</h5>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <p><strong>الهاتف:</strong> {{ $user->phone ?? 'غير محدد' }}</p>
-                                                <p><strong>تاريخ الميلاد:</strong>
+                                                <p class="mb-3">
+                                                    <i class="fas fa-phone me-2"></i>
+                                                    <strong>الهاتف:</strong> {{ $user->phone ?? 'غير محدد' }}
+                                                </p>
+                                                <p class="mb-3">
+                                                    <i class="fas fa-birthday-cake me-2"></i>
+                                                    <strong>تاريخ الميلاد:</strong>
                                                     {{ $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : 'غير محدد' }}
                                                 </p>
                                             </div>
                                             <div class="col-md-6">
-                                                <p><strong>الجنس:</strong>
-                                                    {{ $user->gender == 'male' ? 'ذكر' : 'أنثى' }}</p>
-                                                <p><strong>البلد:</strong> {{ $user->country->name ?? 'غير محدد' }}</p>
+                                                <p class="mb-3">
+                                                    <i class="fas fa-venus-mars me-2"></i>
+                                                    <strong>الجنس:</strong>
+                                                    {{ $user->gender == 'male' ? 'ذكر' : 'أنثى' }}
+                                                </p>
+                                                <p class="mb-0">
+                                                    <i class="fas fa-flag me-2"></i>
+                                                    <strong>البلد:</strong>
+                                                    {{ $user->country->name ?? 'غير محدد' }}
+                                                </p>
                                             </div>
                                         </div>
-                                        <hr>
-                                        <h5 class="card-title">نبذة عني</h5>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-white">نبذة عني</h6>
+                                    </div>
+                                    <div class="card-body">
                                         <p>{{ $user->about_me ?? 'لا يوجد وصف' }}</p>
-                                        <hr>
-                                        <h5 class="card-title">مهاراتي</h5>
-                                        <div class="d-flex flex-wrap">
-                                            @forelse($user->skills as $skill)
-                                                <span class="badge bg-primary me-2 mb-2">{{ $skill->name }}</span>
-                                            @empty
-                                                <p>لا توجد مهارات محددة</p>
-                                            @endforelse
-                                        </div>
-                                        <hr>
-                                        <h5 class="card-title">اللغات</h5>
-                                        <p>{{ $user->language->name ?? 'غير محدد' }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-white">مهاراتي</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        @forelse($user->skills as $skill)
+                                            <span class="badge bg-primary skill-badge">
+                                                {{ $skill->name }}
+                                                <span
+                                                    class="language-level">{{ $skill->pivot->level ?? 'غير محدد' }}</span>
+                                            </span>
+                                        @empty
+                                            <p class="text-muted">لا توجد مهارات محددة</p>
+                                        @endforelse
+                                    </div>
+                                </div>
+
+                                <div class="card mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-white">لغاتي</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        @forelse($user->languages as $language)
+                                            <div class="mb-2">
+                                                <strong>{{ $language->name }}</strong>
+                                                <span
+                                                    class="language-level">{{ $language->pivot->level ?? 'غير محدد' }}</span>
+                                            </div>
+                                        @empty
+                                            <p class="text-muted">لا توجد لغات محددة</p>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>
@@ -161,129 +361,174 @@
 
                     <!-- Edit Profile Tab -->
                     <div class="tab-pane fade" id="edit-profile">
-                        <div
-                            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 class="h2">تعديل الملف الشخصي</h1>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2 class="fw-bold text-primary">
+                                <i class="fas fa-edit me-2"></i>تعديل الملف الشخصي
+                            </h2>
+                            <button class="btn btn-primary d-lg-none ms-2" id="mobileSidebarToggle2">
+                                <i class="fas fa-bars"></i> القائمة
+                            </button>
                         </div>
 
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                        <form id="profileForm" method="POST" action="{{ route('profile.update') }}"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
 
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="image" class="form-label">صورة الملف الشخصي</label>
-                                        <input type="file" class="form-control" id="image" name="image">
-                                        @if ($user->image_path)
-                                            <div class="mt-2">
-                                                <img src="{{ asset('storage/' . $user->image_path) }}"
-                                                    class="img-thumbnail edit-img" alt="Current Profile Image">
+                                <div class="col-lg-9">
+                                    <div class="card mb-4">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-white">المعلومات الأساسية</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="first_name" class="form-label">الاسم الأول</label>
+                                                    <input type="text" class="form-control" id="first_name"
+                                                        name="first_name"
+                                                        value="{{ old('first_name', $user->first_name) }}" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="last_name" class="form-label">الاسم الأخير</label>
+                                                    <input type="text" class="form-control" id="last_name"
+                                                        name="last_name"
+                                                        value="{{ old('last_name', $user->last_name) }}" required>
+                                                </div>
                                             </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="first_name" class="form-label">الاسم الأول</label>
-                                            <input type="text" class="form-control" id="first_name" name="first_name"
-                                                value="{{ old('first_name', $user->first_name) }}" required>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="last_name" class="form-label">الاسم الأخير</label>
-                                            <input type="text" class="form-control" id="last_name"
-                                                name="last_name" value="{{ old('last_name', $user->last_name) }}"
-                                                required>
+
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">البريد الإلكتروني</label>
+                                                <input type="email" class="form-control" id="email"
+                                                    name="email" value="{{ old('email', $user->email) }}" required>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="phone" class="form-label">رقم الهاتف</label>
+                                                    <input type="text" class="form-control" id="phone"
+                                                        name="phone" value="{{ old('phone', $user->phone) }}">
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="date_of_birth" class="form-label">تاريخ
+                                                        الميلاد</label>
+                                                    <input type="date" class="form-control" id="date_of_birth"
+                                                        name="date_of_birth"
+                                                        value="{{ old('date_of_birth', $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : '') }}">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="gender" class="form-label">الجنس</label>
+                                                    <select class="form-select" id="gender" name="gender">
+                                                        <option value="">اختر...</option>
+                                                        <option value="male"
+                                                            {{ old('gender', $user->gender) == 'male' ? 'selected' : '' }}>
+                                                            ذكر</option>
+                                                        <option value="female"
+                                                            {{ old('gender', $user->gender) == 'female' ? 'selected' : '' }}>
+                                                            أنثى</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="country_id" class="form-label">البلد</label>
+                                                    <select class="form-select" id="country_id" name="country_id">
+                                                        <option value="">اختر البلد...</option>
+                                                        @foreach ($countries as $country)
+                                                            <option value="{{ $country->id }}"
+                                                                {{ old('country_id', $user->country_id) == $country->id ? 'selected' : '' }}>
+                                                                {{ $country->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="about_me" class="form-label">نبذة عني</label>
+                                                <textarea class="form-control" id="about_me" name="about_me" rows="3">{{ old('about_me', $user->about_me) }}</textarea>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">البريد الإلكتروني</label>
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            value="{{ old('email', $user->email) }}" required>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="phone" class="form-label">رقم الهاتف</label>
-                                            <input type="text" class="form-control" id="phone" name="phone"
-                                                value="{{ old('phone', $user->phone) }}">
+                                    <div class="card mb-4">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-white">المهارات</h6>
                                         </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="date_of_birth" class="form-label">تاريخ الميلاد</label>
-                                            <input type="date" class="form-control" id="date_of_birth"
-                                                name="date_of_birth"
-                                                value="{{ old('date_of_birth', $user->date_of_birth) }}">
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="gender" class="form-label">الجنس</label>
-                                            <select class="form-select" id="gender" name="gender">
-                                                <option value="">اختر...</option>
-                                                <option value="male"
-                                                    {{ old('gender', $user->gender) == 'male' ? 'selected' : '' }}>ذكر
-                                                </option>
-                                                <option value="female"
-                                                    {{ old('gender', $user->gender) == 'female' ? 'selected' : '' }}>
-                                                    أنثى
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="country_id" class="form-label">البلد</label>
-                                            <select class="form-select" id="country_id" name="country_id">
-                                                <option value="">اختر البلد...</option>
-                                                @foreach ($countries as $country)
-                                                    <option value="{{ $country->id }}"
-                                                        {{ old('country_id', $user->country_id) == $country->id ? 'selected' : '' }}>
-                                                        {{ $country->name }}
-                                                    </option>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                @foreach ($skills as $skill)
+                                                    <div class="col-md-4 col-sm-6 mb-2">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="skills[{{ $skill->id }}]"
+                                                                id="skill_{{ $skill->id }}"
+                                                                value="{{ $skill->id }}"
+                                                                @if ($user->skills->contains($skill->id)) checked @endif>
+                                                            <label class="form-check-label"
+                                                                for="skill_{{ $skill->id }}">
+                                                                {{ $skill->name }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                 @endforeach
-                                            </select>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="language_id" class="form-label">اللغة</label>
-                                        <select class="form-select" id="language_id" name="language_id">
-                                            <option value="">اختر اللغة...</option>
-                                            @foreach ($languages as $language)
-                                                <option value="{{ $language->id }}"
-                                                    {{ old('language_id', $user->language_id) == $language->id ? 'selected' : '' }}>
-                                                    {{ $language->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                    <div class="card mb-4">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-white">اللغات</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                @foreach ($languages as $language)
+                                                    <div class="col-md-6 mb-3">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input language-checkbox"
+                                                                type="checkbox"
+                                                                name="languages[{{ $language->id }}][selected]"
+                                                                id="language_{{ $language->id }}" value="1"
+                                                                @if ($user->languages->contains($language->id)) checked @endif>
+                                                            <label class="form-check-label"
+                                                                for="language_{{ $language->id }}">
+                                                                {{ $language->name }}
+                                                            </label>
+                                                        </div>
+                                                        <select class="form-select mt-1 language-level"
+                                                            name="languages[{{ $language->id }}][level]"
+                                                            @if (!$user->languages->contains($language->id)) disabled @endif>
+                                                            <option value="">اختر المستوى...</option>
+                                                            <option value="مبتدئ جدًا"
+                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'مبتدئ جدًا' ? 'selected' : '' }} @endif>
+                                                                مبتدئ جدًا (A1)</option>
+                                                            <option value="مبتدئ"
+                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'مبتدئ' ? 'selected' : '' }} @endif>
+                                                                مبتدئ (A2)</option>
+                                                            <option value="ما قبل المتوسط"
+                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'ما قبل المتوسط' ? 'selected' : '' }} @endif>
+                                                                ما قبل المتوسط (B1)</option>
+                                                            <option value="متوسط"
+                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'متوسط' ? 'selected' : '' }} @endif>
+                                                                متوسط (B2)</option>
+                                                            <option value="فوق المتوسط"
+                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'فوق المتوسط' ? 'selected' : '' }} @endif>
+                                                                فوق المتوسط (C1)</option>
+                                                            <option value="متقدم جدًا"
+                                                                @if ($user->languages->find($language->id)) {{ $user->languages->find($language->id)->pivot->level == 'متقدم جدًا' ? 'selected' : '' }} @endif>
+                                                                متقدم جدًا (C2)</option>
+                                                        </select>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="skills" class="form-label">المهارات</label>
-                                        <select class="form-select select2" id="skills" name="skills[]" multiple>
-                                            @foreach ($skills as $skill)
-                                                <option value="{{ $skill->id }}"
-                                                    {{ in_array($skill->id, $user->skills->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                                    {{ $skill->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="about_me" class="form-label">نبذة عني</label>
-                                        <textarea class="form-control" id="about_me" name="about_me" rows="3">{{ old('about_me', $user->about_me) }}</textarea>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fas fa-save me-1"></i> حفظ التغييرات
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -300,18 +545,92 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function() {
-            $('.select2').select2({
-                placeholder: "اختر المهارات",
-                allowClear: true,
-                language: {
-                    noResults: function() {
-                        return "لا توجد نتائج";
-                    }
+            $('#country_id').select2({
+                placeholder: "اختر البلد...",
+                dir: "rtl", // RTL support for Arabic
+                width: '100%' // Match Bootstrap 5 form-control width
+            });
+        });
+    </script>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Enable/disable language level select based on checkbox
+        $(document).on('change', '.language-checkbox', function() {
+            const levelSelect = $(this).closest('.mb-3').find('.language-level');
+            if ($(this).is(':checked')) {
+                levelSelect.prop('disabled', false);
+            } else {
+                levelSelect.prop('disabled', true);
+                levelSelect.val('');
+            }
+        });
+
+        // Form submission with SweetAlert
+        $('#profileForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const form = this;
+
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: "سيتم حفظ التغييرات التي أجريتها على ملفك الشخصي",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#4e73df',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'نعم، احفظ التغييرات',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+
+        // Show success message if exists
+        @if (session('success'))
+            Swal.fire({
+                title: 'تم!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonColor: '#4e73df'
+            });
+        @endif
+
+        // Mobile sidebar toggle functionality
+        $(document).ready(function() {
+            const sidebar = $('#sidebar');
+            const sidebarToggle = $('#sidebarToggle');
+            const mobileSidebarToggle = $('#mobileSidebarToggle');
+            const mobileSidebarToggle2 = $('#mobileSidebarToggle2');
+
+            // Floating toggle button
+            sidebarToggle.on('click', function() {
+                sidebar.toggleClass('show');
+            });
+
+            // Mobile menu button in header
+            mobileSidebarToggle.on('click', function() {
+                sidebar.toggleClass('show');
+            });
+
+            // Mobile menu button in edit profile
+            mobileSidebarToggle2.on('click', function() {
+                sidebar.toggleClass('show');
+            });
+
+            // Close sidebar when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest(
+                        '#sidebar, #sidebarToggle, #mobileSidebarToggle, #mobileSidebarToggle2').length) {
+                    sidebar.removeClass('show');
                 }
             });
         });

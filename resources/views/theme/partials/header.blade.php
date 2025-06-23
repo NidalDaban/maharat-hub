@@ -8,15 +8,9 @@
                 <div class="dropdown">
                     <a href="#" class="d-flex flex-column align-items-center text-decoration-none dropdown-toggle"
                         id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if (auth()->user()->image_path)
-                            <img src="{{ auth()->user()->avatar }}" alt="صورة المستخدم" width="48" height="48"
-                                class="rounded-circle mb-1">
-                        @else
-                            <div class="avatar-placeholder rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mb-1"
-                                style="width: 48px; height: 48px; font-size: 1.5rem;">
-                                {{ substr(auth()->user()->first_name, 0, 1) }}
-                            </div>
-                        @endif
+                        <img src="{{ auth()->user()->image_url }}" alt="صورة المستخدم" width="48" height="48"
+                            class="rounded-circle mb-1">
+
                         <span class="d-none d-md-inline text-center"
                             style="font-size: 0.8rem;">{{ auth()->user()->fullName() ?: auth()->user()->email }}</span>
                     </a>
@@ -60,7 +54,7 @@
 
     </div>
 </header>
-
+{{-- 
 <style>
     /* Updated Dropdown Styles */
     .dropdown-toggle {
@@ -109,4 +103,4 @@
         right: auto !important;
         left: 0 !important;
     }
-</style>
+</style> --}}

@@ -13,16 +13,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
-
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-
     public function myProfile()
     {
-        $user = User::with('skills', 'country', 'language')->find(auth()->id());
+        $user = User::with(['skills', 'languages' => function ($query) {
+            $query->withPivot('level');
+        }, 'country'])
+            ->find(auth()->id());
 
         $countries = Country::all();
         $skills = Skill::all();
@@ -38,14 +36,10 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
 
-        // Update basic info
         $user->fill($request->only([
             'first_name',
             'last_name',
@@ -55,33 +49,37 @@ class ProfileController extends Controller
             'gender',
             'about_me',
             'country_id',
-            'language_id'
         ]));
 
-        // Handle image upload
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('profile-images', 'public');
-            $user->image_path = $path;
+            $path = $request->file('image')->store('public/profile-images');
+            $user->image_path = str_replace('public/', '', $path);
         }
 
-        // Handle email verification
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
         $user->save();
 
-        // Sync skills (many-to-many)
         if ($request->has('skills')) {
-            $user->skills()->sync($request->skills);
+            $selectedSkills = array_keys(array_filter($request->skills));
+            $user->skills()->sync($selectedSkills);
         }
 
-        return Redirect::route('myProfile')->with('status', 'Profile updated successfully!');
+        if ($request->has('languages')) {
+            $languagesWithLevels = [];
+            foreach ($request->languages as $languageId => $data) {
+                if (isset($data['selected'])) {
+                    $languagesWithLevels[$languageId] = ['level' => $data['level'] ?? null];
+                }
+            }
+            $user->languages()->sync($languagesWithLevels);
+        }
+
+        return Redirect::route('myProfile')->with('success', 'تم تحديث الملف الشخصي بنجاح!');
     }
 
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
