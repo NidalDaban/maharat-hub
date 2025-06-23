@@ -39,37 +39,76 @@
             margin-right: 8px;
         }
 
+        /* Sidebar Styles */
         .sidebar {
             position: fixed;
             top: 70px;
             bottom: 0;
             right: 0;
-            /* width: 250px; */
             width: 16rem;
             background: white;
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
-            z-index: 10;
-            transition: all 0.3s;
+            z-index: 1050;
+            transition: right 0.3s ease;
             overflow-y: auto;
         }
 
-        .sidebar.collapsed {
-            right: -250px;
-        }
-
-        .profile-section {
-            display: flex;
-            flex-direction: column;
-        }
-
         .main-content {
-            margin-right: 250px;
+            margin-right: 16rem;
             padding: 20px;
             transition: all 0.3s;
         }
 
-        .main-content.expanded {
-            margin-right: 0;
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1060;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.3);
+        }
+
+        /* Mobile sidebar styles */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                right: -16rem;
+            }
+
+            .sidebar.show {
+                right: 0;
+            }
+
+            .main-content {
+                margin-right: 0;
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            /* Optional overlay */
+            body.sidebar-open::after {
+                content: '';
+                position: fixed;
+                top: 70px;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1040;
+            }
+        }
+
+        /* Other existing styles */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
         }
 
         .nav-link {
@@ -125,21 +164,6 @@
             background: #e9ecef;
             border-radius: 0.25rem;
             margin-left: 0.5rem;
-        }
-
-        .sidebar-toggle {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.3);
         }
 
         /* Languages Skills */
@@ -201,26 +225,6 @@
             border-color: #dddfeb;
         }
 
-        /* Languages Skills */
-
-        @media (max-width: 992px) {
-            .sidebar {
-                right: -250px;
-            }
-
-            .sidebar.show {
-                right: 0;
-            }
-
-            .main-content {
-                margin-right: 0;
-            }
-
-            .sidebar-toggle {
-                display: block;
-            }
-        }
-
         @media (max-width: 768px) {
             .profile-img {
                 width: 100px;
@@ -241,6 +245,7 @@
             }
         }
     </style>
+
 </head>
 
 <body>
@@ -731,36 +736,68 @@
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    {{-- Languages and Skills --}}
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         $(document).ready(function() {
-            // Skills section functionality
+            // ======================
+            // Sidebar Functionality
+            // ======================
+            const sidebar = $('#sidebar');
+            const sidebarToggle = $('#sidebarToggle');
+            const mobileSidebarToggle = $('#mobileSidebarToggle');
+            const mobileSidebarToggle2 = $('#mobileSidebarToggle2');
+
+            // Function to toggle sidebar
+            function toggleSidebar() {
+                sidebar.toggleClass('show');
+                $('body').toggleClass('sidebar-open');
+            }
+
+            // Initialize sidebar state based on screen size
+            function initSidebar() {
+                if ($(window).width() < 992) {
+                    sidebar.removeClass('show');
+                } else {
+                    sidebar.addClass('show');
+                }
+            }
+
+            // Initialize on load
+            initSidebar();
+
+            // Event handlers for all toggle buttons
+            [sidebarToggle, mobileSidebarToggle, mobileSidebarToggle2].forEach(btn => {
+                btn.on('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleSidebar();
+                });
+            });
+
+            // Close sidebar when clicking outside on mobile
+            $(document).on('click', function(e) {
+                if ($(window).width() < 992 &&
+                    !$(e.target).closest(
+                        '#sidebar, #sidebarToggle, #mobileSidebarToggle, #mobileSidebarToggle2').length &&
+                    sidebar.hasClass('show')) {
+                    toggleSidebar();
+                }
+            });
+
+            // Handle window resize
+            $(window).on('resize', initSidebar);
+
+            // ======================
+            // Skills Functionality
+            // ======================
             const skillsPerPage = 10;
             let currentSkillsPage = 1;
             let filteredSkills = @json($skills);
             let allSelectedSkills = @json($user->skills->pluck('id')->toArray());
-
-            const languagesPerPage = 10;
-            let currentLanguagesPage = 1;
-            let filteredLanguages = @json($languages);
-            let allLanguagesData = @json($languages);
-
-            // Store selected languages and their levels
-            let selectedLanguages = {};
-            // Initialize with user's current languages
-            @foreach ($user->languages as $lang)
-                selectedLanguages[{{ $lang->id }}] = {
-                    selected: true,
-                    level: '{{ $lang->pivot->level }}'
-                };
-            @endforeach
-
-            // Initialize tables
-            renderSkillsTable();
-            renderLanguagesTable();
 
             // Skills filter type change
             $('#skillFilterType').change(function() {
@@ -842,17 +879,17 @@
                 let html = '';
                 paginatedSkills.forEach(skill => {
                     html += `
-            <tr>
-                <td>${skill.name}</td>
-                <td>${skill.classification ? skill.classification.name : 'غير محدد'}</td>
-                <td class="text-center">
-                    <input class="form-check-input" type="checkbox"
-                        name="skills[${skill.id}]"
-                        id="skill_${skill.id}"
-                        value="${skill.id}"
-                        ${allSelectedSkills.includes(skill.id) ? 'checked' : ''}>
-                </td>
-            </tr>`;
+                <tr>
+                    <td>${skill.name}</td>
+                    <td>${skill.classification ? skill.classification.name : 'غير محدد'}</td>
+                    <td class="text-center">
+                        <input class="form-check-input" type="checkbox"
+                            name="skills[${skill.id}]"
+                            id="skill_${skill.id}"
+                            value="${skill.id}"
+                            ${allSelectedSkills.includes(skill.id) ? 'checked' : ''}>
+                    </td>
+                </tr>`;
                 });
 
                 $('#skillsTableBody').html(html);
@@ -867,24 +904,45 @@
 
                 const totalPages = Math.ceil(filteredSkills.length / skillsPerPage);
                 let paginationHtml = `
-        <li class="page-item ${currentSkillsPage === 1 ? 'disabled' : ''}" id="skillsPrevPage">
-            <a class="page-link" href="#" tabindex="-1">السابقة</a>
-        </li>`;
+            <li class="page-item ${currentSkillsPage === 1 ? 'disabled' : ''}" id="skillsPrevPage">
+                <a class="page-link" href="#" tabindex="-1">السابقة</a>
+            </li>`;
 
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHtml += `
-            <li class="page-item ${i === currentSkillsPage ? 'active' : ''}">
-                <a class="page-link skills-page-link" href="#" data-page="${i}">${i}</a>
-            </li>`;
+                <li class="page-item ${i === currentSkillsPage ? 'active' : ''}">
+                    <a class="page-link skills-page-link" href="#" data-page="${i}">${i}</a>
+                </li>`;
                 }
 
                 paginationHtml += `
-        <li class="page-item ${currentSkillsPage === totalPages ? 'disabled' : ''}" id="skillsNextPage">
-            <a class="page-link" href="#">التالية</a>
-        </li>`;
+            <li class="page-item ${currentSkillsPage === totalPages ? 'disabled' : ''}" id="skillsNextPage">
+                <a class="page-link" href="#">التالية</a>
+            </li>`;
 
                 $('.pagination').first().html(paginationHtml);
             }
+
+            // ======================
+            // Languages Functionality
+            // ======================
+            const languagesPerPage = 10;
+            let currentLanguagesPage = 1;
+            let filteredLanguages = @json($languages);
+            let allLanguagesData = @json($languages);
+            let selectedLanguages = {};
+
+            // Initialize with user's current languages
+            @foreach ($user->languages as $lang)
+                selectedLanguages[{{ $lang->id }}] = {
+                    selected: true,
+                    level: '{{ $lang->pivot->level }}'
+                };
+            @endforeach
+
+            // Initialize tables
+            renderSkillsTable();
+            renderLanguagesTable();
 
             // Language filter
             $('#languageFilter').keyup(function() {
@@ -926,21 +984,16 @@
                 const languageId = parseInt($(this).val());
 
                 if ($(this).is(':checked')) {
-                    // Set default level if not already set
                     if (!levelSelect.val()) {
                         levelSelect.val('مبتدئ');
                     }
                     levelSelect.prop('disabled', false);
-
-                    // Update selectedLanguages object
                     selectedLanguages[languageId] = {
                         selected: true,
                         level: levelSelect.val()
                     };
                 } else {
                     levelSelect.prop('disabled', true);
-
-                    // Update selectedLanguages object
                     delete selectedLanguages[languageId];
                 }
             });
@@ -963,40 +1016,40 @@
                     const level = isSelected ? selectedLanguages[language.id].level : '';
 
                     html += `
-            <tr>
-                <td>${language.name}</td>
-                <td>
-                    <select class="form-select language-level" 
-                        name="languages[${language.id}][level]"
-                        ${isSelected ? '' : 'disabled'}>
-                        <option value="">اختر المستوى...</option>
-                        <option value="مبتدئ جدًا" ${level === 'مبتدئ جدًا' ? 'selected' : ''}>
-                            مبتدئ جدًا (A1)
-                        </option>
-                        <option value="مبتدئ" ${level === 'مبتدئ' ? 'selected' : ''}>
-                            مبتدئ (A2)
-                        </option>
-                        <option value="ما قبل المتوسط" ${level === 'ما قبل المتوسط' ? 'selected' : ''}>
-                            ما قبل المتوسط (B1)
-                        </option>
-                        <option value="متوسط" ${level === 'متوسط' ? 'selected' : ''}>
-                            متوسط (B2)
-                        </option>
-                        <option value="فوق المتوسط" ${level === 'فوق المتوسط' ? 'selected' : ''}>
-                            فوق المتوسط (C1)
-                        </option>
-                        <option value="متقدم جدًا" ${level === 'متقدم جدًا' ? 'selected' : ''}>
-                            متقدم جدًا (C2)
-                        </option>
-                    </select>
-                </td>
-                <td class="text-center">
-                    <input class="form-check-input language-checkbox" type="checkbox"
-                        name="languages[${language.id}][selected]"
-                        id="language_${language.id}" value="${language.id}"
-                        ${isSelected ? 'checked' : ''}>
-                </td>
-            </tr>`;
+                <tr>
+                    <td>${language.name}</td>
+                    <td>
+                        <select class="form-select language-level" 
+                            name="languages[${language.id}][level]"
+                            ${isSelected ? '' : 'disabled'}>
+                            <option value="">اختر المستوى...</option>
+                            <option value="مبتدئ جدًا" ${level === 'مبتدئ جدًا' ? 'selected' : ''}>
+                                مبتدئ جدًا (A1)
+                            </option>
+                            <option value="مبتدئ" ${level === 'مبتدئ' ? 'selected' : ''}>
+                                مبتدئ (A2)
+                            </option>
+                            <option value="ما قبل المتوسط" ${level === 'ما قبل المتوسط' ? 'selected' : ''}>
+                                ما قبل المتوسط (B1)
+                            </option>
+                            <option value="متوسط" ${level === 'متوسط' ? 'selected' : ''}>
+                                متوسط (B2)
+                            </option>
+                            <option value="فوق المتوسط" ${level === 'فوق المتوسط' ? 'selected' : ''}>
+                                فوق المتوسط (C1)
+                            </option>
+                            <option value="متقدم جدًا" ${level === 'متقدم جدًا' ? 'selected' : ''}>
+                                متقدم جدًا (C2)
+                            </option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <input class="form-check-input language-checkbox" type="checkbox"
+                            name="languages[${language.id}][selected]"
+                            id="language_${language.id}" value="${language.id}"
+                            ${isSelected ? 'checked' : ''}>
+                    </td>
+                </tr>`;
                 });
 
                 $('#languagesTableBody').html(html);
@@ -1011,27 +1064,30 @@
 
                 const totalPages = Math.ceil(filteredLanguages.length / languagesPerPage);
                 let paginationHtml = `
-        <li class="page-item ${currentLanguagesPage === 1 ? 'disabled' : ''}" id="languagesPrevPage">
-            <a class="page-link" href="#" tabindex="-1">السابقة</a>
-        </li>`;
+            <li class="page-item ${currentLanguagesPage === 1 ? 'disabled' : ''}" id="languagesPrevPage">
+                <a class="page-link" href="#" tabindex="-1">السابقة</a>
+            </li>`;
 
                 for (let i = 1; i <= totalPages; i++) {
                     paginationHtml += `
-            <li class="page-item ${i === currentLanguagesPage ? 'active' : ''}">
-                <a class="page-link languages-page-link" href="#" data-page="${i}">${i}</a>
-            </li>`;
+                <li class="page-item ${i === currentLanguagesPage ? 'active' : ''}">
+                    <a class="page-link languages-page-link" href="#" data-page="${i}">${i}</a>
+                </li>`;
                 }
 
                 paginationHtml += `
-        <li class="page-item ${currentLanguagesPage === totalPages ? 'disabled' : ''}" id="languagesNextPage">
-            <a class="page-link" href="#">التالية</a>
-        </li>`;
+            <li class="page-item ${currentLanguagesPage === totalPages ? 'disabled' : ''}" id="languagesNextPage">
+                <a class="page-link" href="#">التالية</a>
+            </li>`;
 
                 $('.pagination').last().html(paginationHtml);
             }
 
+            // ======================
+            // Form Submission
+            // ======================
             $('#profileForm').on('submit', function(e) {
-                e.preventDefault(); // Always prevent default first
+                e.preventDefault();
                 const form = this;
 
                 // Validate languages
@@ -1103,7 +1159,7 @@
                     cancelButtonText: 'إلغاء'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        form.submit(); // Submit manually after confirmation
+                        form.submit();
                     }
                 });
             });
@@ -1115,31 +1171,7 @@
                 width: '100%'
             });
 
-            // Sidebar toggle functionality
-            const sidebar = $('#sidebar');
-            const sidebarToggle = $('#sidebarToggle');
-            const mobileSidebarToggle = $('#mobileSidebarToggle');
-            const mobileSidebarToggle2 = $('#mobileSidebarToggle2');
-
-            sidebarToggle.on('click', function() {
-                sidebar.toggleClass('show');
-            });
-
-            mobileSidebarToggle.on('click', function() {
-                sidebar.toggleClass('show');
-            });
-
-            mobileSidebarToggle2.on('click', function() {
-                sidebar.toggleClass('show');
-            });
-
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest(
-                        '#sidebar, #sidebarToggle, #mobileSidebarToggle, #mobileSidebarToggle2').length) {
-                    sidebar.removeClass('show');
-                }
-            });
-
+            // Success message
             @if (session('success'))
                 Swal.fire({
                     title: 'تم!',
@@ -1151,87 +1183,6 @@
         });
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('#country_id').select2({
-                placeholder: "اختر البلد...",
-                dir: "rtl",
-                width: '100%'
-            });
-        });
-    </script>
-
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        // Enable/disable language level select based on checkbox
-        $(document).on('change', '.language-checkbox', function() {
-            const levelSelect = $(this).closest('.mb-3').find('.language-level');
-            if ($(this).is(':checked')) {
-                levelSelect.prop('disabled', false);
-            } else {
-                levelSelect.prop('disabled', true);
-                levelSelect.val('');
-            }
-        });
-
-        $('#profileForm').on('submit', function(e) {
-            e.preventDefault();
-
-            const form = this;
-
-            Swal.fire({
-                title: 'هل أنت متأكد؟',
-                text: "سيتم حفظ التغييرات التي أجريتها على ملفك الشخصي",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#4e73df',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'نعم، احفظ التغييرات',
-                cancelButtonText: 'إلغاء'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
-        });
-
-        @if (session('success'))
-            Swal.fire({
-                title: 'تم!',
-                text: '{{ session('success') }}',
-                icon: 'success',
-                confirmButtonColor: '#4e73df'
-            });
-        @endif
-
-        $(document).ready(function() {
-            const sidebar = $('#sidebar');
-            const sidebarToggle = $('#sidebarToggle');
-            const mobileSidebarToggle = $('#mobileSidebarToggle');
-            const mobileSidebarToggle2 = $('#mobileSidebarToggle2');
-
-            sidebarToggle.on('click', function() {
-                sidebar.toggleClass('show');
-            });
-
-            mobileSidebarToggle.on('click', function() {
-                sidebar.toggleClass('show');
-            });
-
-            mobileSidebarToggle2.on('click', function() {
-                sidebar.toggleClass('show');
-            });
-
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest(
-                        '#sidebar, #sidebarToggle, #mobileSidebarToggle, #mobileSidebarToggle2').length) {
-                    sidebar.removeClass('show');
-                }
-            });
-        });
-    </script>
 
 </body>
 
