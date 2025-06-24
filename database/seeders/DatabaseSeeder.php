@@ -25,5 +25,7 @@ class DatabaseSeeder extends Seeder
             ClassificationSeeder::class,
             SkillSeeder::class,
         ]);
+
+        $this->call(UserSeeder::class);
     }
 }

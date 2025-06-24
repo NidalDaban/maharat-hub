@@ -70,5 +70,13 @@ class User extends Authenticatable
             : 'https://cdn-icons-png.flaticon.com/512/4140/4140048.png';
     }
 
-    
+    public function sentInvitations()
+    {
+        return $this->hasMany(Invitation::class, 'source_user_id');
+    }
+
+    public function receivedInvitations()
+    {
+        return $this->hasMany(Invitation::class, 'destination_user_id');
+    }
 }

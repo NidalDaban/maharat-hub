@@ -328,32 +328,6 @@
                         <div class="row profile-section">
                             <div class="col-lg-4 profile-image">
                                 <div class="card mb-4">
-                                    {{-- <input type="file" id="profileImageInput" accept="image/*"
-                                            style="display: none;">
-                                        <div class="d-flex justify-content-center mb-2">
-                                            <button class="btn btn-primary me-2" data-bs-toggle="tab"
-                                                data-bs-target="#edit-profile">
-                                                <i class="fas fa-edit me-1"></i> تعديل
-                                            </button>
-                                        </div> --}}
-                                    {{-- <div class="card-body text-center">
-                                        <img id="profileImage" src="{{ $user->image_url }}"
-                                            class="rounded-circle profile-img mb-3" alt="صورة الملف الشخصي">
-                                        <h3 class="fw-bold">{{ $user->fullName() }}</h3>
-                                        <p class="text-muted mb-4">{{ $user->email }}</p>                                        
-
-                                        <input type="file" id="profileImageInput"
-                                            accept="image/jpeg, image/png, image/gif, image/webp"
-                                            style="display: none;">
-                                        <div class="d-flex justify-content-center mb-2">
-                                            <button class="btn btn-primary me-2" id="uploadImageBtn"
-                                                data-bs-toggle="tab" data-bs-target="#edit-profile">
-                                                <i class="fas fa-edit me-1"></i> تعديل
-                                            </button>
-                                        </div>
-
-                                    </div> --}}
-
                                     <div class="card-body text-center">
                                         <img id="profileImage" src="{{ $user->image_url }}"
                                             class="rounded-circle profile-img mb-3" alt="صورة الملف الشخصي">
