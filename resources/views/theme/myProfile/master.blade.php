@@ -285,8 +285,8 @@
             <div class="sidebar" id="sidebar">
                 <div class="pt-4 px-3">
                     <div class="text-center mb-4">
-                        <img src="{{ $user->image_url }}" class="rounded-circle profile-img mb-3"
-                            alt="صورة الملف الشخصي">
+                        <img id="sidebarProfileImage" src="{{ $user->image_url }}"
+                            class="rounded-circle profile-img mb-3" alt="صورة الملف الشخصي">
                         <h5 class="fw-bold">{{ $user->fullName() }}</h5>
                         <p class="text-muted">{{ $user->email }}</p>
                     </div>
@@ -328,16 +328,44 @@
                         <div class="row profile-section">
                             <div class="col-lg-4 profile-image">
                                 <div class="card mb-4">
-                                    <div class="card-body text-center">
-                                        <img src="{{ $user->image_url }}" class="rounded-circle profile-img mb-3"
-                                            alt="صورة الملف الشخصي">
-                                        <h3 class="fw-bold">{{ $user->fullName() }}</h3>
-                                        <p class="text-muted mb-4">{{ $user->email }}</p>
-
+                                    {{-- <input type="file" id="profileImageInput" accept="image/*"
+                                            style="display: none;">
                                         <div class="d-flex justify-content-center mb-2">
                                             <button class="btn btn-primary me-2" data-bs-toggle="tab"
                                                 data-bs-target="#edit-profile">
                                                 <i class="fas fa-edit me-1"></i> تعديل
+                                            </button>
+                                        </div> --}}
+                                    {{-- <div class="card-body text-center">
+                                        <img id="profileImage" src="{{ $user->image_url }}"
+                                            class="rounded-circle profile-img mb-3" alt="صورة الملف الشخصي">
+                                        <h3 class="fw-bold">{{ $user->fullName() }}</h3>
+                                        <p class="text-muted mb-4">{{ $user->email }}</p>                                        
+
+                                        <input type="file" id="profileImageInput"
+                                            accept="image/jpeg, image/png, image/gif, image/webp"
+                                            style="display: none;">
+                                        <div class="d-flex justify-content-center mb-2">
+                                            <button class="btn btn-primary me-2" id="uploadImageBtn"
+                                                data-bs-toggle="tab" data-bs-target="#edit-profile">
+                                                <i class="fas fa-edit me-1"></i> تعديل
+                                            </button>
+                                        </div>
+
+                                    </div> --}}
+
+                                    <div class="card-body text-center">
+                                        <img id="profileImage" src="{{ $user->image_url }}"
+                                            class="rounded-circle profile-img mb-3" alt="صورة الملف الشخصي">
+                                        <h3 class="fw-bold">{{ $user->fullName() }}</h3>
+                                        <p class="text-muted mb-4">{{ $user->email }}</p>
+
+                                        <input type="file" id="profileImageInput"
+                                            accept="image/jpeg, image/png, image/gif, image/webp"
+                                            style="display: none;">
+                                        <div class="d-flex justify-content-center mb-2">
+                                            <button class="btn btn-primary me-2" id="uploadImageBtn">
+                                                <i class="fas fa-camera me-1"></i> تغيير الصورة
                                             </button>
                                         </div>
                                     </div>
@@ -742,7 +770,93 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        function uploadProfileImage(file) {
+            // Validate image type
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                Swal.fire({
+                    title: 'خطأ!',
+                    text: 'الرجاء اختيار صورة بصيغة JPG, PNG, GIF أو WEBP فقط',
+                    icon: 'error',
+                    confirmButtonColor: '#4e73df'
+                });
+                return;
+            }
+
+            // Validate image size (max 5MB)
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            if (file.size > maxSize) {
+                Swal.fire({
+                    title: 'خطأ!',
+                    text: 'حجم الصورة كبير جداً. الحد الأقصى 5MB',
+                    icon: 'error',
+                    confirmButtonColor: '#4e73df'
+                });
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('profile_image', file);
+            formData.append('_token', '{{ csrf_token() }}');
+
+            // Show loading indicator
+            Swal.fire({
+                title: 'جاري رفع الصورة',
+                html: 'الرجاء الانتظار...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            axios.post('/profile/upload-image', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(response => {
+                    Swal.fire({
+                        title: 'تم!',
+                        text: 'تم تحديث صورة الملف الشخصي بنجاح',
+                        icon: 'success',
+                        confirmButtonColor: '#4e73df'
+                    });
+
+                    // Update both images with cache busting
+                    if (response.data.image_url) {
+                        const newImageUrl = response.data.image_url + '?' + new Date().getTime();
+                        $('#profileImage, #sidebarProfileImage').attr('src', newImageUrl);
+                    }
+                })
+                .catch(error => {
+                    let errorMessage = 'حدث خطأ أثناء تحديث الصورة';
+                    if (error.response && error.response.data && error.response.data.message) {
+                        errorMessage = error.response.data.message;
+                    }
+                    Swal.fire({
+                        title: 'خطأ!',
+                        text: errorMessage,
+                        icon: 'error',
+                        confirmButtonColor: '#4e73df'
+                    });
+                });
+        }
+
         $(document).ready(function() {
+            // ======================
+            // Profile Image Upload
+            // ======================
+            $('#uploadImageBtn').on('click', function(e) {
+                e.preventDefault();
+                $('#profileImageInput').trigger('click');
+            });
+
+            $('#profileImageInput').on('change', function() {
+                if (this.files && this.files[0]) {
+                    uploadProfileImage(this.files[0]);
+                }
+            });
+
             // ======================
             // Sidebar Functionality
             // ======================
@@ -751,13 +865,11 @@
             const mobileSidebarToggle = $('#mobileSidebarToggle');
             const mobileSidebarToggle2 = $('#mobileSidebarToggle2');
 
-            // Function to toggle sidebar
             function toggleSidebar() {
                 sidebar.toggleClass('show');
                 $('body').toggleClass('sidebar-open');
             }
 
-            // Initialize sidebar state based on screen size
             function initSidebar() {
                 if ($(window).width() < 992) {
                     sidebar.removeClass('show');
@@ -766,10 +878,8 @@
                 }
             }
 
-            // Initialize on load
             initSidebar();
 
-            // Event handlers for all toggle buttons
             [sidebarToggle, mobileSidebarToggle, mobileSidebarToggle2].forEach(btn => {
                 btn.on('click', function(e) {
                     e.preventDefault();
@@ -778,7 +888,6 @@
                 });
             });
 
-            // Close sidebar when clicking outside on mobile
             $(document).on('click', function(e) {
                 if ($(window).width() < 992 &&
                     !$(e.target).closest(
@@ -788,7 +897,6 @@
                 }
             });
 
-            // Handle window resize
             $(window).on('resize', initSidebar);
 
             // ======================
@@ -799,10 +907,8 @@
             let filteredSkills = @json($skills);
             let allSelectedSkills = @json($user->skills->pluck('id')->toArray());
 
-            // Skills filter type change
             $('#skillFilterType').change(function() {
                 const filterType = $(this).val();
-
                 $('#skillNameFilterContainer').toggle(filterType === 'skill');
                 $('#classificationFilterContainer').toggle(filterType === 'classification');
 
@@ -813,7 +919,6 @@
                 }
             });
 
-            // Skill name filter
             $('#skillNameFilter').keyup(function() {
                 const searchTerm = $(this).val().toLowerCase();
                 filteredSkills = @json($skills).filter(skill =>
@@ -823,7 +928,6 @@
                 renderSkillsTable();
             });
 
-            // Classification filter
             $('#classificationFilter').change(function() {
                 const classificationId = $(this).val();
                 if (!classificationId) {
@@ -837,7 +941,6 @@
                 renderSkillsTable();
             });
 
-            // Track skill selection changes
             $(document).on('change', '.form-check-input[type="checkbox"][name^="skills"]', function() {
                 const skillId = parseInt($(this).val());
                 if ($(this).is(':checked')) {
@@ -849,7 +952,6 @@
                 }
             });
 
-            // Skills pagination
             $(document).on('click', '.skills-page-link', function(e) {
                 e.preventDefault();
                 currentSkillsPage = parseInt($(this).data('page'));
@@ -932,7 +1034,6 @@
             let allLanguagesData = @json($languages);
             let selectedLanguages = {};
 
-            // Initialize with user's current languages
             @foreach ($user->languages as $lang)
                 selectedLanguages[{{ $lang->id }}] = {
                     selected: true,
@@ -940,11 +1041,9 @@
                 };
             @endforeach
 
-            // Initialize tables
             renderSkillsTable();
             renderLanguagesTable();
 
-            // Language filter
             $('#languageFilter').keyup(function() {
                 const searchTerm = $(this).val().toLowerCase();
                 filteredLanguages = allLanguagesData.filter(language =>
@@ -954,7 +1053,6 @@
                 renderLanguagesTable();
             });
 
-            // Languages pagination
             $(document).on('click', '.languages-page-link', function(e) {
                 e.preventDefault();
                 currentLanguagesPage = parseInt($(this).data('page'));
@@ -977,7 +1075,6 @@
                 }
             });
 
-            // Language checkbox handling
             $(document).on('change', '.language-checkbox', function() {
                 const row = $(this).closest('tr');
                 const levelSelect = row.find('.language-level');
@@ -998,7 +1095,6 @@
                 }
             });
 
-            // Handle language level changes
             $(document).on('change', '.language-level', function() {
                 const languageId = parseInt($(this).closest('tr').find('.language-checkbox').val());
                 if (selectedLanguages[languageId]) {
@@ -1090,7 +1186,6 @@
                 e.preventDefault();
                 const form = this;
 
-                // Validate languages
                 const invalidLanguages = [];
                 Object.keys(selectedLanguages).forEach(langId => {
                     if (!selectedLanguages[langId].level) {
@@ -1110,11 +1205,9 @@
                     return false;
                 }
 
-                // Remove previously added hidden inputs (if any)
                 $('.dynamic-skill-input').remove();
                 $('.dynamic-language-input').remove();
 
-                // Append hidden inputs for selected skills
                 allSelectedSkills.forEach(skillId => {
                     $('<input>')
                         .attr({
@@ -1126,7 +1219,6 @@
                         .appendTo(form);
                 });
 
-                // Append hidden inputs for selected languages and their levels
                 Object.keys(selectedLanguages).forEach(langId => {
                     $('<input>')
                         .attr({
@@ -1147,7 +1239,6 @@
                         .appendTo(form);
                 });
 
-                // Show confirmation dialog
                 Swal.fire({
                     title: 'هل أنت متأكد؟',
                     text: "سيتم حفظ التغييرات التي أجريتها على ملفك الشخصي",
@@ -1164,14 +1255,12 @@
                 });
             });
 
-            // Initialize Select2 for country select
             $('#country_id').select2({
                 placeholder: "اختر البلد...",
                 dir: "rtl",
                 width: '100%'
             });
 
-            // Success message
             @if (session('success'))
                 Swal.fire({
                     title: 'تم!',

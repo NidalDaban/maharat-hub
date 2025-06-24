@@ -89,6 +89,28 @@ class ProfileController extends Controller
         return Redirect::route('myProfile')->with('success', 'تم تحديث المعلومات بنجاح!');
     }
 
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'profile_image' => 'required|image|mimes:jpeg,png,gif,webp|max:5120', // 5MB
+        ]);
+
+        if ($request->hasFile('profile_image')) {
+            $user = $request->user(); // Alternative to auth()->user()
+            $path = $request->file('profile_image')->store('profile_images', 'public');
+
+            $user->image_path = $path;
+            $user->save();
+
+            return response()->json([
+                'message' => 'تم تحديث الصورة بنجاح',
+                'image_url' => $user->image_url // Return the full URL
+            ]);
+        }
+
+        return response()->json(['message' => 'لم يتم اختيار صورة'], 400);
+    }
+
 
     public function getSkills(Request $request)
     {
