@@ -252,6 +252,30 @@
     </style>
 
 
+    <style>
+        .accordion-button::after {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-button.collapsed::after {
+            transform: rotate(0deg);
+        }
+
+        .accordion-button:not(.collapsed)::after {
+            transform: rotate(180deg);
+            /* Arrow down to up */
+        }
+
+        .accordion-button {
+            color: #3498db !important;
+            font-size: 1rem !important;
+            font-weight: bold !important;
+        }
+
+        /* #3498db */
+    </style>
+
+
 
     <style>
         /* Add this to your existing styles */
@@ -993,6 +1017,8 @@
             background: #1c84e3;
         }
     </style>
+
+
 
 
     {{-- Search the coach in the trainers page

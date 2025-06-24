@@ -74,6 +74,27 @@
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.3);
         }
 
+        .select2-container {
+            width: 100% !important;
+        }
+
+        /* Brogress Bar */
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .progress {
+            border-radius: 4px;
+            background-color: #f0f0f0;
+        }
+
+        .progress-bar {
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+
         /* Mobile sidebar styles */
         @media (max-width: 991.98px) {
             .sidebar {
@@ -297,6 +318,7 @@
                                 <i class="fas fa-user me-2"></i>حسابي
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="#edit-profile" data-bs-toggle="tab">
                                 <i class="fas fa-edit me-2"></i>تعديل الملف
@@ -326,8 +348,9 @@
                         </div>
 
                         <div class="row profile-section">
-                            <div class="col-lg-4 profile-image">
-                                <div class="card mb-4">
+                            <div class="col-lg-8 d-flex align-items-center" style="min-height: 50vh;">
+                                <div class="card mx-auto w-100" style="max-width: 400px;">
+
                                     <div class="card-body text-center">
                                         <img id="profileImage" src="{{ $user->image_url }}"
                                             class="rounded-circle profile-img mb-3" alt="صورة الملف الشخصي">
@@ -341,10 +364,30 @@
                                             <button class="btn btn-primary me-2" id="uploadImageBtn">
                                                 <i class="fas fa-camera me-1"></i> تغيير الصورة
                                             </button>
+                                            <button class="btn btn-danger" id="removeImageBtn">
+                                                <i class="fas fa-trash me-1"></i> إزالة الصورة
+                                            </button>
                                         </div>
                                     </div>
+
+                                    <!-- Progress Bar -->
+                                    <div class="mb-4">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span class="text-muted">اكتمال الملف الشخصي</span>
+                                            <span
+                                                class="text-primary fw-bold">{{ $user->profileCompletionPercentage() }}%</span>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar bg-primary" role="progressbar"
+                                                style="width: {{ $user->profileCompletionPercentage() }}%"
+                                                aria-valuenow="{{ $user->profileCompletionPercentage() }}"
+                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
+
 
                             <div class="col-lg-9 profile-info">
                                 <div class="card mb-4">
@@ -725,6 +768,7 @@
                             </div>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -801,6 +845,9 @@
                         const newImageUrl = response.data.image_url + '?' + new Date().getTime();
                         $('#profileImage, #sidebarProfileImage').attr('src', newImageUrl);
                     }
+
+                    // Refresh the page to update progress bar
+                    location.reload();
                 })
                 .catch(error => {
                     let errorMessage = 'حدث خطأ أثناء تحديث الصورة';
@@ -817,6 +864,34 @@
         }
 
         $(document).ready(function() {
+
+            $('#classificationFilter').select2({
+                placeholder: "ابحث عن الفئة...",
+                allowClear: true,
+                language: {
+                    noResults: function() {
+                        return "لا توجد نتائج";
+                    }
+                }
+            });
+
+            $('#country_id').select2({
+                placeholder: "اختر البلد...",
+                dir: "rtl",
+                width: '100%'
+            });
+
+            // Add this for classification filter
+            $('#classificationFilter').select2({
+                placeholder: "ابحث عن الفئة...",
+                allowClear: true,
+                language: {
+                    noResults: function() {
+                        return "لا توجد نتائج";
+                    }
+                }
+            });
+
             // ======================
             // Profile Image Upload
             // ======================
@@ -1235,6 +1310,7 @@
                 width: '100%'
             });
 
+
             @if (session('success'))
                 Swal.fire({
                     title: 'تم!',
@@ -1245,6 +1321,65 @@
             @endif
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const removeBtn = document.getElementById('removeImageBtn');
+            const profileImage = document.getElementById('profileImage'); // preview image
+            const sidebarImage = document.getElementById('sidebarProfileImage'); // fixed ID
+
+            if (removeBtn) {
+                removeBtn.addEventListener('click', function() {
+                    Swal.fire({
+                        title: 'هل انت متأكد من ازالة الصورة؟',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'تأكيد',
+                        cancelButtonText: 'إلغاء'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch('{{ route('profile.remove-image') }}', {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({})
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        const defaultImage = '/images/default-profile.png';
+
+                                        // Update profile image preview
+                                        if (profileImage) profileImage.src = defaultImage;
+
+                                        // Update sidebar image
+                                        if (sidebarImage) {
+                                            sidebarImage.src = defaultImage + '?v=' + new Date()
+                                                .getTime();
+                                        }
+
+                                        // Reset input if needed
+                                        const fileInput = document.getElementById('imageInput');
+                                        if (fileInput) fileInput.value = '';
+
+                                        Swal.fire('تم الحذف!', 'تمت إزالة الصورة بنجاح.',
+                                            'success');
+                                    } else {
+                                        Swal.fire('خطأ!', 'حدث خطأ أثناء الحذف.', 'error');
+                                    }
+                                })
+                                .catch(() => {
+                                    Swal.fire('خطأ!', 'حدث خطأ في الاتصال بالخادم.', 'error');
+                                });
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+
 
 
 </body>

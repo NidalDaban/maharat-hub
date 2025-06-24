@@ -41,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/upload-image', [ProfileController::class, 'uploadImage'])->name('profile.upload-image');
+    Route::post('profile/remove-image', [ProfileController::class, 'removeImage'])->name('profile.remove-image');
+       
 
     Route::get('/api/skills', [ProfileController::class, 'getSkills'])->name('api.skills');
     Route::get('/api/languages', [ProfileController::class, 'getLanguages'])->name('api.languages');

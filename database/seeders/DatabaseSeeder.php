@@ -27,5 +27,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(UserSeeder::class);
+
+        $this->call(LanguageSeeder::class);
     }
 }

@@ -21,6 +21,7 @@
                             <i class="bi bi-building flex-shrink-0 me-3"></i>
                             <div>
                                 <h3>مهارات هب</h3>
+                                <p>******************</p>
                             </div>
                         </div>
 

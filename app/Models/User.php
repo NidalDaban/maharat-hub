@@ -48,6 +48,23 @@ class User extends Authenticatable
         return $this->belongsToMany(Skill::class, 'user_skills');
     }
 
+    public function skillDescriptions()
+    {
+        return $this->hasMany(UserSkillDescription::class);
+    }
+
+    public function getSkillsWithDescriptionAttribute()
+    {
+        return $this->skills->map(function ($skill) {
+            $description = $this->skillDescriptions
+                ->firstWhere('skill_id', $skill->id)?->description;
+
+            $skill->description = $description;
+            return $skill;
+        });
+    }
+
+
     public function languages()
     {
         return $this->belongsToMany(Language::class, 'user_languages')
@@ -79,4 +96,56 @@ class User extends Authenticatable
     {
         return $this->hasMany(Invitation::class, 'destination_user_id');
     }
+
+    public function profileCompletionPercentage()
+    {
+        $totalFields = 0;
+        $filledFields = 0;
+
+        $personalInfoFields = [
+            'first_name',
+            'last_name',
+            'phone',
+            'date_of_birth',
+            'gender',
+            'country_id',
+            'about_me',
+        ];
+
+        foreach ($personalInfoFields as $field) {
+            $totalFields++;
+            if (!empty($this->$field)) {
+                $filledFields++;
+            }
+        }
+
+        // Skills and Languages
+        $totalFields += 2; // One for skills, one for languages
+        if ($this->skills()->count() > 0) {
+            $filledFields++;
+        }
+        if ($this->languages()->count() > 0) {
+            $filledFields++;
+        }
+
+        // Profile Image
+        // $totalFields++;
+        // if ($this->image_path) {
+        //     $filledFields++;
+        // }
+
+        return $totalFields > 0 ? round(($filledFields / $totalFields) * 100) : 0;
+    }
+
+    public function sentReviews()
+    {
+        return $this->hasMany(Review::class, 'sender_id');
+    }
+
+    public function receivedReviews()
+    {
+        return $this->hasMany(Review::class, 'receved_id');
+    }
+
+    
 }

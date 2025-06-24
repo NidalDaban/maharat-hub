@@ -22,64 +22,103 @@
                                 <li>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="badge1">
-                                        <label class="form-check-label" for="badge1">Top Raised Plus</label>
+                                        <label class="form-check-label" for="badge1">الأعلى تقييماً بلس</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="badge2">
-                                        <label class="form-check-label" for="badge2">Top Raised</label>
+                                        <label class="form-check-label" for="badge2">الأعلى تقييماً</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="badge3">
-                                        <label class="form-check-label" for="badge3">Rising Talent</label>
+                                        <label class="form-check-label" for="badge3">موهبة صاعدة</label>
                                     </div>
                                 </li>
                             </ul>
                         </div>
 
-                        <div class="filter-section">
-                            <h4 class="filter-subtitle">المهارات</h4>
-                            <ul class="filter-list">
-                                <li>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="skill1">
-                                        <label class="form-check-label" for="skill1">الترجمة</label>
+                        <div class="accordion" id="userFilterAccordion">
+                            <div class="accordion-item border-0">
+                                <h2 class="accordion-header" id="headingGender">
+                                    <button class="accordion-button collapsed bg-white shadow-none px-0" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseGender" aria-expanded="false"
+                                        aria-controls="collapseGender">
+                                        الجنس
+                                    </button>
+                                </h2>
+                                <div id="collapseGender" class="accordion-collapse collapse" aria-labelledby="headingGender"
+                                    data-bs-parent="#userFilterAccordion">
+                                    <div class="accordion-body px-0">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="gender_male" name="gender[]"
+                                                value="male">
+                                            <label class="form-check-label" for="gender_male">ذكر</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="gender_female"
+                                                name="gender[]" value="female">
+                                            <label class="form-check-label" for="gender_female">انثى</label>
+                                        </div>
                                     </div>
-                                </li>
-                                <li>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="skill2">
-                                        <label class="form-check-label" for="skill2">التدقيق اللغوي</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion" id="userFilterAccordion">
+                            <div class="accordion-item border-0">
+                                <h2 class="accordion-header" id="headingCountry">
+                                    <button class="accordion-button collapsed bg-white shadow-none px-0" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseCountry" aria-expanded="false"
+                                        aria-controls="collapseCountry">
+                                        الدولة
+                                    </button>
+                                </h2>
+                                <div id="collapseCountry" class="accordion-collapse collapse"
+                                    aria-labelledby="headingCountry" data-bs-parent="#userFilterAccordion">
+                                    <div class="accordion-body px-0">
+                                        @foreach ($countries as $country)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="country_{{ $country->id }}" name="countries[]"
+                                                    value="{{ $country->id }}">
+                                                <label class="form-check-label" for="country_{{ $country->id }}">
+                                                    {{ $country->name }}
+                                                </label>
+                                            </div>
+                                        @endforeach
                                     </div>
-                                </li>
-                                <li>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="skill3">
-                                        <label class="form-check-label" for="skill3">الإنجليزية</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="accordion" id="userFilterAccordion">
+                            <div class="accordion-item border-0">
+                                <h2 class="accordion-header" id="headingClassification">
+                                    <button class="accordion-button collapsed bg-white shadow-none px-0" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseClassification"
+                                        aria-expanded="false" aria-controls="collapseClassification">
+                                        الفئات
+                                    </button>
+                                </h2>
+                                <div id="collapseClassification" class="accordion-collapse collapse"
+                                    aria-labelledby="headingClassification" data-bs-parent="#userFilterAccordion">
+                                    <div class="accordion-body px-0">
+                                        @foreach ($classifications as $classification)
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="classification_{{ $classification->id }}" name="classifications[]"
+                                                    value="{{ $classification->id }}">
+                                                <label class="form-check-label"
+                                                    for="classification_{{ $classification->id }}">{{ $classification->name }}</label>
+                                            </div>
+                                        @endforeach
                                     </div>
-                                </li>
-                                <li>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="skill4">
-                                        <label class="form-check-label" for="skill4">كتابة المحتوى</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="skill5">
-                                        <label class="form-check-label" for="skill5">إدخال البيانات</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="skill6">
-                                        <label class="form-check-label" for="skill6">الكتابة</label>
-                                    </div>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -109,64 +148,40 @@
 
                     <div class="talent-grid">
                         <!-- Talent Card 1 -->
-                        <div class="talent-card">
-                            <div class="talent-header">
-                                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Talent"
-                                    class="talent-avatar">
-                                <div class="talent-info">
-                                    <h4>نورا أحمد</h4>
-                                    <p>مترجمة محترفة | الإنجليزية إلى العربية</p>
-                                    <span class="talent-location">مصر</span>
-                                </div>
-                            </div>
-                            <div class="talent-stats">
-                                <span><i class="bi bi-star-fill"></i> 4.9 (128 تقييم)</span>
-                                <span><i class="bi bi-check-circle-fill"></i> 95% معدل استجابة</span>
-                            </div>
-                            <div class="talent-description">
-                                <p>مترجمة محترفة مع أكثر من 8 سنوات خبرة في الترجمة القانونية والطبية. حاصلة على شهادة
-                                    الترجمة من جامعة القاهرة...</p>
-                            </div>
-                            <div class="talent-skills">
-                                <span class="skill-tag">الترجمة</span>
-                                <span class="skill-tag">الإنجليزية</span>
-                                <span class="skill-tag">العربية</span>
-                            </div>
-                            <div class="talent-actions">
-                                <button class="btn btn-primary">عرض الملف الشخصي</button>
-                                <button class="btn btn-outline-primary">دعوة</button>
-                            </div>
-                        </div>
 
-                        <!-- Talent Card 2 -->
-                        <div class="talent-card">
-                            <div class="talent-header">
-                                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Talent"
-                                    class="talent-avatar">
-                                <div class="talent-info">
-                                    <h4>محمد علي</h4>
-                                    <p>مدقق لغوي محترف | العربية والإنجليزية</p>
-                                    <span class="talent-location">السعودية</span>
+                        @foreach ($users as $user)
+                            <div class="talent-card">
+                                <div class="talent-header">
+                                    <img src="{{ $user->getImageUrlAttribute() }}" alt="Talent" class="talent-avatar">
+                                    <div class="talent-info">
+                                        <h4>{{ $user->fullName() }}</h4>
+                                        <p>
+                                            @foreach ($user->languages as $language)
+                                                {{ $language->name . ' ' . $language->pivot->level . ' | ' }}
+                                            @endforeach
+                                        </p>
+                                        <span class="talent-location">{{ $user->country->name }}</span>
+                                    </div>
+                                </div>
+                                <div class="talent-stats">
+                                    <span><i class="bi bi-star-fill"></i> 4.9 (128 تقييم)</span>
+                                    <span><i class="bi bi-check-circle-fill"></i> 95% معدل استجابة</span>
+                                </div>
+                                <div class="talent-description">
+                                    <p>{{ $user->about_me }}</p>
+                                </div>
+                                <div class="talent-skills">
+
+                                    @foreach ($user->skills as $skill)
+                                        <span class="skill-tag">{{ $skill->name }}</span>
+                                    @endforeach
+                                </div>
+                                <div class="talent-actions">
+                                    <button class="btn btn-primary">عرض الملف الشخصي</button>
+                                    <button class="btn btn-outline-primary">دعوة</button>
                                 </div>
                             </div>
-                            <div class="talent-stats">
-                                <span><i class="bi bi-star-fill"></i> 4.8 (97 تقييم)</span>
-                                <span><i class="bi bi-check-circle-fill"></i> 98% معدل استجابة</span>
-                            </div>
-                            <div class="talent-description">
-                                <p>مدقق لغوي محترف مع خبرة تزيد عن 6 سنوات في التدقيق اللغوي للمحتوى الأكاديمي والتقني.
-                                    متخصص في التدقيق اللغوي للكتب والأوراق البحثية...</p>
-                            </div>
-                            <div class="talent-skills">
-                                <span class="skill-tag">التدقيق اللغوي</span>
-                                <span class="skill-tag">كتابة المحتوى</span>
-                                <span class="skill-tag">اللغة العربية</span>
-                            </div>
-                            <div class="talent-actions">
-                                <button class="btn btn-primary">عرض الملف الشخصي</button>
-                                <button class="btn btn-outline-primary">دعوة</button>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

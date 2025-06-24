@@ -14,71 +14,73 @@ class LanguageSeeder extends Seeder
     public function run(): void
     {
         $languages = [
-            'Arabic',
-            'English',
-            'Spanish',
-            'French',
-            'German',
-            'Chinese',
-            'Hindi',
-            'Russian',
-            'Portuguese',
-            'Japanese',
-            'Korean',
-            'Turkish',
-            'Italian',
-            'Dutch',
-            'Urdu',
-            'Bengali',
-            'Persian',
-            'Malay',
-            'Thai',
-            'Swahili',
-            'Vietnamese',
-            'Greek',
-            'Hebrew',
-            'Polish',
-            'Czech',
-            'Romanian',
-            'Hungarian',
-            'Serbian',
-            'Ukrainian',
-            'Indonesian',
-            'Norwegian',
-            'Swedish',
-            'Finnish',
-            'Danish',
-            'Filipino',
-            'Pashto',
-            'Somali',
-            'Amharic',
-            'Armenian',
-            'Azerbaijani',
-            'Basque',
-            'Belarusian',
-            'Catalan',
-            'Estonian',
-            'Georgian',
-            'Hausa',
-            'Igbo',
-            'Irish',
-            'Kazakh',
-            'Kurdish',
-            'Latvian',
-            'Lithuanian',
-            'Macedonian',
-            'Maltese',
-            'Mongolian',
-            'Nepali',
-            'Slovak',
-            'Slovenian',
-            'Tajik',
-            'Tamil',
-            'Telugu',
-            'Tigrinya',
-            'Yoruba',
-            'Zulu',
+            'العربية', // Arabic
+            'الإنجليزية', // English
+            'الإسبانية', // Spanish
+            'الفرنسية', // French
+            'الألمانية', // German
+            'الصينية', // Chinese
+            'الهندية', // Hindi
+            'الروسية', // Russian
+            'البرتغالية', // Portuguese
+            'اليابانية', // Japanese
+            'الكورية', // Korean
+            'التركية', // Turkish
+            'الإيطالية', // Italian
+            'الهولندية', // Dutch
+            'الأردية', // Urdu
+            'البنغالية', // Bengali
+            'الفارسية', // Persian
+            'الماليزية', // Malay
+            'التايلاندية', // Thai
+            'السواحلية', // Swahili
+            'الفيتنامية', // Vietnamese
+            'اليونانية', // Greek
+            'العبرية', // Hebrew
+            'البولندية', // Polish
+            'التشيكية', // Czech
+            'الرومانية', // Romanian
+            'الهنغارية', // Hungarian
+            'الصربية', // Serbian
+            'الأوكرانية', // Ukrainian
+            'الإندونيسية', // Indonesian
+            'النرويجية', // Norwegian
+            'السويدية', // Swedish
+            'الفنلندية', // Finnish
+            'الدانماركية', // Danish
+            'الفلبينية', // Filipino
+            'البشتو', // Pashto
+            'الصومالية', // Somali
+            'الأمهرية', // Amharic
+            'الأرمينية', // Armenian
+            'الأذربيجانية', // Azerbaijani
+            'الباسكية', // Basque
+            'البيلاروسية', // Belarusian
+            'الكتالانية', // Catalan
+            'الإستونية', // Estonian
+            'الجورجية', // Georgian
+            'الهوسا', // Hausa
+            'الإغبو', // Igbo
+            'الأيرلندية', // Irish
+            'الكازاخية', // Kazakh
+            'الكردية', // Kurdish
+            'اللاتفية', // Latvian
+            'الليتوانية', // Lithuanian
+            'المقدونية', // Macedonian
+            'المالطية', // Maltese
+            'المنغولية', // Mongolian
+            'النيبالية', // Nepali
+            'السلوفاكية', // Slovak
+            'السلوفينية', // Slovenian
+            'الطاجيكية', // Tajik
+            'التاميلية', // Tamil
+            'التيلجو', // Telugu
+            'التيغرينية', // Tigrinya
+            'اليوروبية', // Yoruba
+            'الزولو', // Zulu
         ];
+
+        DB::table('languages')->delete(); // Clear previous English entries
 
         foreach ($languages as $language) {
             DB::table('languages')->insert([

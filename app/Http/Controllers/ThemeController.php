@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classification;
+use App\Models\Country;
+use App\Models\Skill;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ThemeController extends Controller
@@ -13,7 +17,16 @@ class ThemeController extends Controller
 
     public function skills()
     {
-        return view("theme.skills");
+        $users = User::with(['skills', 'country', 'languages'])->get();
+        $skills = Skill::with(['classification'])->get();
+        $classifications = Classification::all();
+        $countries = Country::all();
+        return view("theme.skills", [
+            'users' => $users,
+            'skills' => $skills,
+            'classifications' => $classifications,
+            'countries' => $countries,
+        ]);
     }
 
     public function about()

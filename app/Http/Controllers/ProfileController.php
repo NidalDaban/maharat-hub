@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -92,11 +93,11 @@ class ProfileController extends Controller
     public function uploadImage(Request $request)
     {
         $request->validate([
-            'profile_image' => 'required|image|mimes:jpeg,png,gif,webp|max:5120', // 5MB
+            'profile_image' => 'required|image|mimes:jpeg,png,gif,webp|max:5120',
         ]);
 
         if ($request->hasFile('profile_image')) {
-            $user = $request->user(); // Alternative to auth()->user()
+            $user = $request->user();
             $path = $request->file('profile_image')->store('profile_images', 'public');
 
             $user->image_path = $path;
@@ -104,12 +105,28 @@ class ProfileController extends Controller
 
             return response()->json([
                 'message' => 'تم تحديث الصورة بنجاح',
-                'image_url' => $user->image_url // Return the full URL
+                'image_url' => $user->image_url
             ]);
         }
 
         return response()->json(['message' => 'لم يتم اختيار صورة'], 400);
     }
+
+    public function removeImage(Request $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+
+        if ($user->image_path && Storage::disk('public')->exists($user->image_path)) {
+            Storage::disk('public')->delete($user->image_path);
+        }
+
+        $user->image_path = null;
+        $user->save();
+
+        return response()->json(['success' => true]);
+    }
+
 
 
     public function getSkills(Request $request)

@@ -98,9 +98,13 @@
         }
 
         .privacy-section h3 {
-            color: var(--primary-color);
+            /* color: var(--primary-color); */
             font-weight: 600;
             margin: 30px 0 15px;
+        }
+
+        li::before {
+            color: color: var(--primary-color);
         }
 
         .privacy-section p,
@@ -132,8 +136,8 @@
         }
 
         .highlight-box {
-            background: linear-gradient(to right, rgba(67, 97, 238, 0.05), rgba(72, 149, 239, 0.05));
-            border-right: 4px solid var(--accent-color);
+            /* background: linear-gradient(to right, rgba(67, 97, 238, 0.05), rgba(72, 149, 239, 0.05)); */
+            /* border-right: 4px solid var(--accent-color); */
             padding: 25px;
             margin: 30px 0;
             border-radius: var(--border-radius);
